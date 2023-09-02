@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">BerVolume</string>
+    <string name="length">Panjang</string>
+    <string name="width">Lebar</string>
+    <string name="empty_name">Mohon di Isi</string>
+    <string name="height">Tinggi</string>
+    <string name="result">Hitung</string>
 </resources>
