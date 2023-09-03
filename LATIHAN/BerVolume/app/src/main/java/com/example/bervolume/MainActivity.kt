@@ -1,6 +1,7 @@
 package com.example.bervolume
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -15,6 +16,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var edtHeight: EditText
     private lateinit var tvResult: TextView
     private lateinit var btnCalculate: Button
+    private lateinit var btnIntent: Button
 
     companion object {
         private const val STATE_RESULT = "state_result"
@@ -31,6 +33,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         tvResult = findViewById(R.id.tv_result)
         btnCalculate = findViewById(R.id.btn_result)
         btnCalculate.setOnClickListener(this)
+        btnIntent.setOnClickListener{
+            val toIntent = Intent(this@MainActivity, IntentActivity::class.java)
+            startActivity(toIntent)
+        }
 
         if (savedInstanceState != null) {
             val result = savedInstanceState.getString(STATE_RESULT)
