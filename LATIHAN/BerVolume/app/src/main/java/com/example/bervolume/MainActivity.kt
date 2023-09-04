@@ -32,11 +32,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         edtHeight = findViewById(R.id.edt_height)
         tvResult = findViewById(R.id.tv_result)
         btnCalculate = findViewById(R.id.btn_result)
+        btnIntent = findViewById(R.id.btn_intent)
         btnCalculate.setOnClickListener(this)
-        btnIntent.setOnClickListener{
-            val toIntent = Intent(this@MainActivity, IntentActivity::class.java)
-            startActivity(toIntent)
-        }
+        btnIntent.setOnClickListener(this)
 
         if (savedInstanceState != null) {
             val result = savedInstanceState.getString(STATE_RESULT)
@@ -51,27 +49,34 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(view: View?) {
-        if (view?.id == R.id.btn_result) {
-            val inputLength = edtLength.text.toString().trim()
-            val inputWidth = edtWidth.text.toString().trim()
-            val inputHeight = edtHeight.text.toString().trim()
-            var emptyInput = false
-            if (inputLength.isEmpty()) {
-                emptyInput = true
-                edtLength.error = "Field ini tidak boleh kosong"
+        when (view?.id) {
+            R.id.btn_result -> {
+                val inputLength = edtLength.text.toString().trim()
+                val inputWidth = edtWidth.text.toString().trim()
+                val inputHeight = edtHeight.text.toString().trim()
+                var emptyInput = false
+                if (inputLength.isEmpty()) {
+                    emptyInput = true
+                    edtLength.error = "Field ini tidak boleh kosong"
+                }
+                if (inputWidth.isEmpty()) {
+                    emptyInput = true
+                    edtWidth.error = "Field ini tidak boleh kosong"
+                }
+                if (inputHeight.isEmpty()) {
+                    emptyInput = true
+                    edtHeight.error = "Field ini tidak boleh kosong"
+                }
+                if (!emptyInput) {
+                    val volume = inputLength.toDouble() * inputWidth.toDouble() * inputHeight.toDouble()
+                    tvResult.text = volume.toString()
+                }
             }
-            if (inputWidth.isEmpty()) {
-                emptyInput = true
-                edtWidth.error = "Field ini tidak boleh kosong"
+            R.id.btn_intent -> {
+                val intent = Intent(this@MainActivity,IntentActivity::class.java)
+                startActivity(intent)
             }
-            if (inputHeight.isEmpty()) {
-                emptyInput = true
-                edtHeight.error = "Field ini tidak boleh kosong"
-            }
-            if (!emptyInput) {
-                val volume = inputLength.toDouble() * inputWidth.toDouble() * inputHeight.toDouble()
-                tvResult.text = volume.toString()
-            }
+
 
         }
 
