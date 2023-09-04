@@ -2,6 +2,9 @@
     <string name="app_name">Liga Champion</string>
     <string name="title_about">About</string>
     <string name="click_detail">Klik untuk lebih detail</string>
+    <string name="title_bola">Klub Bola</string>
+    <string name="jumlah_gelar">Jumlah Gelar</string>
+    <string name="logo_bola">show_logo_bola</string>
 
     <string-array name="data_bola">
         <item>Chelsea</item>
