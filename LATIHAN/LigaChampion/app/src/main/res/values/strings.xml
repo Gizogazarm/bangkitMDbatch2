@@ -32,6 +32,19 @@
         <item>Klub yang berasal dari Liga inggris ini mengaku klub terbesar dari london, eh Liga Champion aja ga punya ,, CHUUUUUUUAKS ... </item>
     </string-array>
 
+    <string-array name="jumlah_gelar">
+        <item>Jumlah 2 Gelar</item>
+        <item>Jumlah 3 Gelar</item>
+        <item>Jumlah 3 Gelar</item>
+        <item>Jumlah 6 Gelar</item>
+        <item>Jumlah 14 Gelar</item>
+        <item>Jumlah 5 Gelar</item>
+        <item>Jumlah 2 Gelar</item>
+        <item>Jumlah 6 Gelar</item>
+        <item>Jumlah 1 Gelar</item>
+        <item>JANGAN DIPENCETr</item>
+    </string-array>
+
     <string-array name="foto_bola">
         <item>https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/190px-Chelsea_FC.svg.png</item>
         <item>https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/190px-Manchester_United_FC_crest.svg.png</item>
@@ -44,5 +57,7 @@
         <item>https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/190px-Manchester_City_FC_badge.svg.png</item>
         <item>https://upload.wikimedia.org/wikipedia/id/thumb/5/53/Arsenal_FC.svg/170px-Arsenal_FC.svg.png</item>
     </string-array>
+
+    <string name="about_me">Saya adalah anonymous yang suka ngetrol klub sepak bola terutama Arsenal , so be happy with Arsenal , My friends ... </string>
 
 </resources>

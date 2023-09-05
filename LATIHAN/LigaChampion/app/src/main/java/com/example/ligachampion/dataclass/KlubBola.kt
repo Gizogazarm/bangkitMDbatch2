@@ -7,6 +7,7 @@ import kotlinx.parcelize.Parcelize
 data class KlubBola (
     val namaBola: String,
     val description: String,
+    val gelar: String,
     val photo: String
 ) : Parcelable
 
