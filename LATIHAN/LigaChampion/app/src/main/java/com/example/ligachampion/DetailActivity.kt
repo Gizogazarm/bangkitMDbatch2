@@ -17,6 +17,12 @@ class DetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val dataBola = intent.getParcelableExtra<KlubBola>(MainActivity.KEY_VALUE)
+        val dataLogoBola = dataBola?.namaBola
+        val dataDescription = dataBola?.description
+
+        binding.tvKlubBola.text = dataLogoBola
+        binding.descriptionBola.text = dataDescription
+
 
         Glide.with(this)
             .load(dataBola?.photo)
