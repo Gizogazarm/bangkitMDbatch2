@@ -53,10 +53,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val descriptionBola = resources.getStringArray(R.array.description_bola)
         val gelar = resources.getStringArray(R.array.jumlah_gelar)
         val dataPhoto = resources.getStringArray(R.array.foto_bola)
+        val dataPhotoPemain = resources.getStringArray(R.array.foto_pemain_bola)
+        val dataNamaPemain = resources.getStringArray(R.array.nama_pemain_bola)
         val listBola = ArrayList<KlubBola>()
 
         for (i in klubBola.indices) {
-            val bola = KlubBola(klubBola[i], descriptionBola[i], gelar[i], dataPhoto[i])
+            val bola = KlubBola(klubBola[i], descriptionBola[i], gelar[i], dataPhoto[i],dataPhotoPemain[i],dataNamaPemain[i])
             listBola.add(bola)
         }
         return listBola

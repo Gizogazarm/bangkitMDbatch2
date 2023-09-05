@@ -58,6 +58,34 @@
         <item>https://upload.wikimedia.org/wikipedia/id/thumb/5/53/Arsenal_FC.svg/170px-Arsenal_FC.svg.png</item>
     </string-array>
 
-    <string name="about_me">Saya adalah anonymous yang suka ngetrol klub sepak bola terutama Arsenal , so be happy with Arsenal , My friends ... </string>
+    <string-array name="foto_pemain_bola">
+        <item>https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Frank_Lampard_2019.jpg/330px-Frank_Lampard_2019.jpg</item>
+        <item>https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Harry_Maguire_2021.jpg/330px-Harry_Maguire_2021.jpg</item>
+        <item>https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Lautaro_Mart%C3%ADnez_%28cropped%29.jpg/330px-Lautaro_Mart%C3%ADnez_%28cropped%29.jpg</item>
+        <item>https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Loris_Karius.jpg/330px-Loris_Karius.jpg</item>
+        <item>https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Pepe_2018.jpg/330px-Pepe_2018.jpg</item>
+        <item>https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/L._Figo_2017_%28cropped%29.jpg/330px-L._Figo_2017_%28cropped%29.jpg</item>
+        <item>https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Gianluigi_Buffon_%2831784615942%29_%28cropped%29.jpg/330px-Gianluigi_Buffon_%2831784615942%29_%28cropped%29.jpg</item>
+        <item>https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Sadio_Man%C3%A9_Senegal.jpg/330px-Sadio_Man%C3%A9_Senegal.jpg</item>
+        <item>https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Sheikh_Mansour_shaking_the_hand_of_Michael_Spindelegger_%28crop%29.jpg/330px-Sheikh_Mansour_shaking_the_hand_of_Michael_Spindelegger_%28crop%29.jpg</item>
+        <item>https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Nicklas_Bendtner_2017.jpg/330px-Nicklas_Bendtner_2017.jpg</item>
+    </string-array>
+
+    <string-array name="nama_pemain_bola">
+        <item>Frank Lampard</item>
+        <item>Lord Harry Maguire</item>
+        <item>Lautaro Martinez</item>
+        <item>Loris Karius</item>
+        <item>Pepe</item>
+        <item>Luis Figo</item>
+        <item>Buffon</item>
+        <item>Sadio Mane</item>
+        <item>Syeikh Mansour</item>
+        <item>Lord Bendtner</item>
+    </string-array>
+
+    <string name="title_pemain_bola">Top Player</string>
+
+    <string name="about_me">NAMA SAYA HELMI NAUFAL K , LEARNING PATH MOBILE DEVELOPMENT BANGKIT BATCH 2 , EMAIL YANG TERDAFTAR : helminaufalkurniawan@gmail.com </string>
 
 </resources>
