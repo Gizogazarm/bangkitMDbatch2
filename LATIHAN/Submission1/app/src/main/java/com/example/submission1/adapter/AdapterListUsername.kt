@@ -8,21 +8,22 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.submission1.databinding.ItemRowListUserBinding
-import com.example.submission1.model.response.ListUsernameResponse
+import com.example.submission1.model.response.ItemsItem
 
-class AdapterListUsername: ListAdapter<ListUsernameResponse,AdapterListUsername.MyViewHolder>(DIFF_CALLBACK){
+
+class AdapterListUsername: ListAdapter<ItemsItem,AdapterListUsername.MyViewHolder>(DIFF_CALLBACK){
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ListUsernameResponse>(){
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ItemsItem>(){
             override fun areItemsTheSame(
-                oldItem: ListUsernameResponse,
-                newItem: ListUsernameResponse
+                oldItem: ItemsItem,
+                newItem: ItemsItem
             ): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: ListUsernameResponse,
-                newItem: ListUsernameResponse
+                oldItem: ItemsItem,
+                newItem: ItemsItem
             ): Boolean {
                 return oldItem == newItem
             }
@@ -31,12 +32,12 @@ class AdapterListUsername: ListAdapter<ListUsernameResponse,AdapterListUsername.
     }
 
     class MyViewHolder (private val binding: ItemRowListUserBinding): RecyclerView.ViewHolder(binding.root)  {
-        fun bind(username: ListUsernameResponse) {
+        fun bind(username: ItemsItem) {
             Glide.with(binding.root.context)
-                .load(username.items[adapterPosition].avatarUrl)
+                .load(username.avatarUrl)
                 .into(binding.profileImage)
 
-            binding.tvUsername.text = username.items[adapterPosition].login
+            binding.tvUsername.text = username.login
 
         }
     }
@@ -51,5 +52,6 @@ class AdapterListUsername: ListAdapter<ListUsernameResponse,AdapterListUsername.
         holder.bind(username)
 
     }
+
 
 }

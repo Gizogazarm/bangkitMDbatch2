@@ -1,6 +1,7 @@
 package com.example.submission1.model.retrofit
 
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -8,7 +9,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 class ApiConfig {
     companion object {
         fun getApiService():ApiService {
+            val loggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
             val client = OkHttpClient.Builder()
+                .addNetworkInterceptor(loggingInterceptor)
                 .build()
             val retrofit = Retrofit.Builder()
                 .baseUrl("https://api.github.com")
