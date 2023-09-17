@@ -3,9 +3,9 @@ package com.example.submission1.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.submission1.R
 import com.example.submission1.adapter.AdapterListUsername
 import com.example.submission1.databinding.ActivityMainBinding
@@ -35,21 +35,23 @@ class MainActivity : AppCompatActivity() {
             showSearchView(searchView,searchBar)
             searchView.inflateMenu(R.menu.menu_setting)
 
-            mainViewModel.setUsername(nama)
 
             mainViewModel.listUsername.observe(this@MainActivity){
                 if(it != null) {
                     Log.d(TAG, "Showing List of Users. Nama: $nama, List Size: ${it.size}")
                     showListUsername(it)
                 }
-
             }
 
-            val layoutManager = LinearLayoutManager(this@MainActivity)
-            rvListUsername.layoutManager = layoutManager
-            val itemDecoration = DividerItemDecoration(this@MainActivity,layoutManager.orientation)
-            rvListUsername.addItemDecoration(itemDecoration)
+            mainViewModel.isLoading.observe(this@MainActivity) {
+                showLoading(it)
+            }
 
+            mainViewModel.totalCount.observe(this@MainActivity){
+                if(it == 0) {
+                    Toast.makeText(this@MainActivity,R.string.not_found,Toast.LENGTH_LONG).show()
+                }
+            }
         }
     }
 
@@ -67,9 +69,15 @@ class MainActivity : AppCompatActivity() {
             nama = searchView.text.toString().trim().lowercase()
             searchView.hide()
             Log.d(TAG, nama)
+            mainViewModel.setUsername(nama)
+            mainViewModel.searchUsername()
             false
         }
 
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressData.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
 

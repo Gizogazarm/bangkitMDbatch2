@@ -2,4 +2,5 @@
     <string name="app_name">Submission 1</string>
     <string name="hint_input">Masukkan nama</string>
     <string name="setting_menu">Setting Menu</string>
+    <string name="not_found">Data Tidak Ditemukan</string>
 </resources>

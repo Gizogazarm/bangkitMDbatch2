@@ -11,7 +11,6 @@ import retrofit2.Call
 import retrofit2.Response
 
 
-
 class MainViewModel : ViewModel() {
 
     private lateinit var query: String
@@ -23,8 +22,11 @@ class MainViewModel : ViewModel() {
     private val _username = MutableLiveData<String>()
     val username: LiveData<String> = _username
 
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+
     private val _totalCount = MutableLiveData<Int>()
-    val totalCount:LiveData<Int> = _totalCount
+    val totalCount: LiveData<Int> = _totalCount
 
     private val _listUsername = MutableLiveData<List<ItemsItem>>()
     val listUsername: MutableLiveData<List<ItemsItem>> = _listUsername
@@ -38,8 +40,8 @@ class MainViewModel : ViewModel() {
     }
 
 
-
-    private fun searchUsername() {
+    internal fun searchUsername() {
+        _isLoading.value = true
         query = username.value ?: ""
         val client = ApiConfig.getApiService().searchUsers(query)
         client.enqueue(object : retrofit2.Callback<ListUsernameResponse> {
@@ -47,10 +49,14 @@ class MainViewModel : ViewModel() {
                 call: Call<ListUsernameResponse>,
                 response: Response<ListUsernameResponse>
             ) {
-                if (response.isSuccessful){
+                _isLoading.value = false
+                if (response.isSuccessful) {
                     _totalCount.value = response.body()?.totalCount
                     _listUsername.value = response.body()?.items
-                    Log.d(TAG, "Search successful. Total Count: ${_totalCount.value}, List Size: ${_listUsername.value?.size}")
+                    Log.d(
+                        TAG,
+                        "Search successful. Total Count: ${_totalCount.value}, List Size: ${_listUsername.value?.size}"
+                    )
                 } else {
 
                     Log.e(TAG, "Search unsuccessful. Response Message: ${response.message()}")
@@ -60,6 +66,7 @@ class MainViewModel : ViewModel() {
 
             override fun onFailure(call: Call<ListUsernameResponse>, t: Throwable) {
 
+                _isLoading.value = false
                 Log.e(TAG, "Search failed. Error Message: ${t.message}", t)
 
             }
