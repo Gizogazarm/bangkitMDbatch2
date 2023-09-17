@@ -1,5 +1,6 @@
 package com.example.submission1.ui
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val TAG = "tag"
+        const val USERNAME ="username"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +54,7 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this@MainActivity,R.string.not_found,Toast.LENGTH_LONG).show()
                 }
             }
+
         }
     }
 
@@ -60,6 +63,13 @@ class MainActivity : AppCompatActivity() {
         val adapter = AdapterListUsername()
         adapter.submitList(listUser)
         binding.rvListUsername.adapter = adapter
+
+        adapter.setOnItemClickCallback(object : AdapterListUsername.OnitemClickCallback {
+            override fun onClickItem(username: ItemsItem) {
+                selectedItemData(username)
+            }
+
+        })
 
     }
 
@@ -80,6 +90,13 @@ class MainActivity : AppCompatActivity() {
         binding.progressData.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
+    private fun selectedItemData(username: ItemsItem) {
+        val intent = Intent(this,DetailActivity::class.java)
+        intent.putExtra(USERNAME,username.login)
+        startActivity(intent)
+    }
+
 
 }
+
 

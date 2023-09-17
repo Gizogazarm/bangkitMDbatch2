@@ -12,6 +12,12 @@ import com.example.submission1.model.response.ItemsItem
 
 
 class AdapterListUsername: ListAdapter<ItemsItem,AdapterListUsername.MyViewHolder>(DIFF_CALLBACK){
+    private lateinit var onitemClickCallback: OnitemClickCallback
+
+    fun setOnItemClickCallback(onitemClickCallback: OnitemClickCallback){
+        this.onitemClickCallback = onitemClickCallback
+    }
+
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ItemsItem>(){
             override fun areItemsTheSame(
@@ -49,8 +55,13 @@ class AdapterListUsername: ListAdapter<ItemsItem,AdapterListUsername.MyViewHolde
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
        val username = getItem(position)
+        holder.itemView.setOnClickListener { onitemClickCallback.onClickItem(username) }
         holder.bind(username)
 
+    }
+
+    interface OnitemClickCallback {
+        fun onClickItem(username: ItemsItem)
     }
 
 

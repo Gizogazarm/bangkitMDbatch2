@@ -1,5 +1,7 @@
 package com.example.submission1.model.response
 
+
+
 import com.google.gson.annotations.SerializedName
 
 data class ListUsernameResponse(
