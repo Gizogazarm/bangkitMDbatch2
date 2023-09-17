@@ -4,11 +4,12 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.submission1.model.response.ItemsItem
-import com.example.submission1.model.response.ListUsernameResponse
 import com.example.submission1.model.retrofit.ApiConfig
-import retrofit2.Call
-import retrofit2.Response
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
 
 
 class MainViewModel : ViewModel() {
@@ -22,7 +23,7 @@ class MainViewModel : ViewModel() {
     private val _username = MutableLiveData<String>()
     val username: LiveData<String> = _username
 
-    private val _isLoading = MutableLiveData<Boolean>()
+    private val _isLoading = MutableLiveData<Boolean>().apply { value = false }
     val isLoading: LiveData<Boolean> = _isLoading
 
     private val _totalCount = MutableLiveData<Int>()
@@ -31,9 +32,6 @@ class MainViewModel : ViewModel() {
     private val _listUsername = MutableLiveData<List<ItemsItem>>()
     val listUsername: MutableLiveData<List<ItemsItem>> = _listUsername
 
-    init {
-        searchUsername()
-    }
 
     fun setUsername(query: String) {
         _username.value = query
@@ -43,36 +41,24 @@ class MainViewModel : ViewModel() {
     internal fun searchUsername() {
         _isLoading.value = true
         query = username.value ?: ""
-        val client = ApiConfig.getApiService().searchUsers(query)
-        client.enqueue(object : retrofit2.Callback<ListUsernameResponse> {
-            override fun onResponse(
-                call: Call<ListUsernameResponse>,
-                response: Response<ListUsernameResponse>
-            ) {
-                _isLoading.value = false
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response = ApiConfig.getApiService().searchUsers(query).execute()
                 if (response.isSuccessful) {
-                    _totalCount.value = response.body()?.totalCount
-                    _listUsername.value = response.body()?.items
-                    Log.d(
-                        TAG,
-                        "Search successful. Total Count: ${_totalCount.value}, List Size: ${_listUsername.value?.size}"
-                    )
+                    _isLoading.postValue(false)
+                    _totalCount.postValue(response.body()?.totalCount)
+                    _listUsername.postValue(response.body()?.items)
+                    Log.d(TAG, "Search Berhasil")
                 } else {
-
-                    Log.e(TAG, "Search unsuccessful. Response Message: ${response.message()}")
-
+                    Log.e(TAG, "Search Gagal ${response.message()}" )
                 }
+            } catch (t: Throwable) {
+                Log.e(TAG, "Search Failed. Error Message: ${t.message}" )
             }
-
-            override fun onFailure(call: Call<ListUsernameResponse>, t: Throwable) {
-
-                _isLoading.value = false
-                Log.e(TAG, "Search failed. Error Message: ${t.message}", t)
-
-            }
+        }
 
 
-        })
+
     }
 
 
