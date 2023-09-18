@@ -15,6 +15,6 @@ class DetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         tvDetail = intent.getStringExtra(MainActivity.USERNAME)
-        binding.tvDetail.text = tvDetail
+        binding.tvDetailUsername.text = tvDetail
     }
 }
