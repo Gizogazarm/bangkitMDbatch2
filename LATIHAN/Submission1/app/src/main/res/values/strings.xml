@@ -5,4 +5,6 @@
     <string name="not_found">Data Tidak Ditemukan</string>
     <string name="username">username pengguna\n</string>
     <string name="nama">nama</string>
+    <string name="follower_count">%d follower</string>
+    <string name="following_count">%d following</string>
 </resources>

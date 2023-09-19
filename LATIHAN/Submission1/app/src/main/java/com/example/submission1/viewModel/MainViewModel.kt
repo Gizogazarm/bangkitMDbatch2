@@ -53,7 +53,7 @@ class MainViewModel : ViewModel() {
                     Log.e(TAG, "Search Gagal ${response.message()}" )
                 }
             } catch (t: Throwable) {
-                Log.e(TAG, "Search Failed. Error Message: ${t.message}" )
+                Log.e(TAG, "Search gagal. Error Message: ${t.message}" )
             }
         }
 

@@ -15,4 +15,6 @@ interface ApiService {
 
     @GET("users/{username}")
     fun getusername(@Path("username") username: String): Call<GetDetailUsernameResponse>
+
+
 }
