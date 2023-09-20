@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.submission1.model.response.ItemsItem
 import com.example.submission1.model.retrofit.ApiConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -32,6 +33,15 @@ class DetailUsernameViewModel : ViewModel() {
     private val _followingNumber = MutableLiveData<Int>()
     val followingNumber: LiveData<Int> = _followingNumber
 
+    private val _usernameFollower = MutableLiveData<List<ItemsItem>>()
+    val usernameFollower: LiveData<List<ItemsItem>> = _usernameFollower
+
+    private val _usernameFollowing = MutableLiveData<List<ItemsItem>>()
+    val usernameFollowing: LiveData<List<ItemsItem>> = _usernameFollowing
+
+    private val _isLoading = MutableLiveData<Boolean>().apply { value = false }
+    val isLoading: LiveData<Boolean> = _isLoading
+
     fun setUsername(username: String?) {
         _username.value = username!!
     }
@@ -52,6 +62,43 @@ class DetailUsernameViewModel : ViewModel() {
                 }
             } catch (t: Throwable) {
                 Log.e(TAG, "Search gagal. Error Message: ${t.message} ")
+            }
+        }
+    }
+
+    internal fun getListFollower() {
+        _isLoading.value = true
+        query = username.value ?: ""
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response = ApiConfig.getApiService().getFollowers(query).execute()
+                if (response.isSuccessful) {
+                    _isLoading.postValue(false)
+                    _usernameFollower.postValue(response.body())
+                    Log.d(TAG, "getListFollower: Berhasil ${response.message()}")
+                } else {
+                    Log.e(TAG, "getListFollower: ${response.message()}")
+                }
+            } catch (t: Throwable) {
+                Log.e(TAG, "getListFollower: ${t.message}")
+            }
+        }
+    }
+
+    internal fun getListFollowing() {
+        _isLoading.value = true
+        query = username.value ?: ""
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response = ApiConfig.getApiService().getFollowing(query).execute()
+                if (response.isSuccessful) {
+                    _isLoading.postValue(false)
+                    _usernameFollowing.postValue(response.body())
+                } else {
+                    Log.e(TAG, "getListFollower: ${response.message()}")
+                }
+            } catch (t: Throwable) {
+                Log.e(TAG, "getListFollower: ${t.message}")
             }
         }
     }
