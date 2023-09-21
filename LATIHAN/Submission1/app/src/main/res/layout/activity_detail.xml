@@ -9,6 +9,15 @@
         android:layout_height="wrap_content"
         tools:context=".ui.DetailActivity">
 
+        <ProgressBar
+            android:id="@+id/progress_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/linear_tabs"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/foto_profile"
             android:layout_width="150dp"
@@ -77,6 +86,7 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/linear_tabs"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="20dp"
@@ -86,16 +96,16 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_follow">
 
             <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/tabs"
                 android:background="?attr/colorPrimary"
-                app:tabTextColor="@android:color/holo_blue_bright"/>
+                app:tabTextColor="@android:color/holo_blue_bright" />
 
             <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/view_pager"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/view_pager"/>
+                android:layout_height="match_parent" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

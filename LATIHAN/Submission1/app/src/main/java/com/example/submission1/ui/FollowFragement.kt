@@ -66,6 +66,7 @@ class FollowFragement : Fragment() {
     private fun showRvList(listUser: List<ItemsItem>) {
         val adapter = AdapterListUsername()
         adapter.submitList(listUser)
+        adapter.notifyDataSetChanged()
         binding.rvListFollow.adapter = adapter
     }
 

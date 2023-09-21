@@ -2,6 +2,7 @@ package com.example.submission1.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
@@ -36,7 +37,10 @@ class DetailActivity : AppCompatActivity() {
             detailUsernameViewModel.setUsername(getUsername)
 
             detailUsernameViewModel.username.observe(this@DetailActivity) {
-                tvDetailUsername.text = it
+                if(progressDetail.visibility == View.GONE) {
+                    tvDetailUsername.text = it
+                }
+
             }
 
             detailUsernameViewModel.avatar.observe(this@DetailActivity){
@@ -47,6 +51,10 @@ class DetailActivity : AppCompatActivity() {
 
             detailUsernameViewModel.nama.observe(this@DetailActivity){
                 tvDetailNama.text = it
+            }
+
+            detailUsernameViewModel.isLoading.observe(this@DetailActivity){
+                showLoading(it)
             }
 
             detailUsernameViewModel.followerNumber.observe(this@DetailActivity) {
@@ -75,5 +83,9 @@ class DetailActivity : AppCompatActivity() {
             tab.text = resources.getString(TAB_TITLES[positon])
             tabs.setSelectedTabIndicatorColor(ContextCompat.getColor(this@DetailActivity, R.color.black))
         }.attach()
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressDetail.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 }

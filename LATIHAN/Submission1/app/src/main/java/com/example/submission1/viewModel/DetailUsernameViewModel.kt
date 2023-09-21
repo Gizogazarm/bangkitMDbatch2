@@ -48,10 +48,12 @@ class DetailUsernameViewModel : ViewModel() {
 
     internal fun getDetailUsername() {
         query = username.value ?: ""
+        _isLoading.value = true
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = ApiConfig.getApiService().getusername(query).execute()
                 if (response.isSuccessful) {
+                    _isLoading.postValue(false)
                     _avatar.postValue(response.body()?.avatarUrl)
                     _username.postValue(response.body()?.login)
                     _nama.postValue(response.body()?.name)
