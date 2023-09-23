@@ -66,7 +66,6 @@ class FollowFragement : Fragment() {
     private fun showRvList(listUser: List<ItemsItem>) {
         val adapter = AdapterListUsername()
         adapter.submitList(listUser)
-        adapter.notifyDataSetChanged()
         binding.rvListFollow.adapter = adapter
     }
 
@@ -74,6 +73,23 @@ class FollowFragement : Fragment() {
         binding.progressDataFollow.visibility = if (boolean) View.VISIBLE else View.GONE
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (position == 1) {
+            detailUsernameViewModel.clearCache()
+            detailUsernameViewModel.getListFollower()
+            detailUsernameViewModel.isLoading.observe(viewLifecycleOwner){
+                showLoading(it)
+            }
+        } else {
+            detailUsernameViewModel.clearCache()
+            detailUsernameViewModel.getListFollowing()
+            detailUsernameViewModel.isLoading.observe(viewLifecycleOwner){
+                showLoading(it)
+            }
+        }
+
+    }
     override fun onDestroy() {
         super.onDestroy()
         _binding = null

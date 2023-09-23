@@ -42,6 +42,9 @@ class DetailUsernameViewModel : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>().apply { value = false }
     val isLoading: LiveData<Boolean> = _isLoading
 
+    private var cachedFollowers: List<ItemsItem>? = null
+    private var cachedFollowing: List<ItemsItem>? = null
+
     fun setUsername(username: String?) {
         _username.value = username!!
     }
@@ -69,40 +72,56 @@ class DetailUsernameViewModel : ViewModel() {
     }
 
     internal fun getListFollower() {
-        _isLoading.value = true
-        query = username.value ?: ""
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val response = ApiConfig.getApiService().getFollowers(query).execute()
-                if (response.isSuccessful) {
-                    _isLoading.postValue(false)
-                    _usernameFollower.postValue(response.body())
-                    Log.d(TAG, "getListFollower: Berhasil ${response.message()}")
-                } else {
-                    Log.e(TAG, "getListFollower: ${response.message()}")
+        if (cachedFollowers != null){
+            _usernameFollower.postValue(cachedFollowers!!)
+        } else {
+            _isLoading.value = true
+            query = username.value ?: ""
+            viewModelScope.launch(Dispatchers.IO) {
+                try {
+                    val response = ApiConfig.getApiService().getFollowers(query).execute()
+                    if (response.isSuccessful) {
+                        _isLoading.postValue(false)
+                        cachedFollowers = response.body()
+                        _usernameFollower.postValue(response.body())
+                        Log.d(TAG, "getListFollower: Berhasil ${response.message()}")
+                    } else {
+                        Log.e(TAG, "getListFollower: ${response.message()}")
+                    }
+                } catch (t: Throwable) {
+                    Log.e(TAG, "getListFollower: ${t.message}")
                 }
-            } catch (t: Throwable) {
-                Log.e(TAG, "getListFollower: ${t.message}")
+            }
+        }
+
+    }
+
+    internal fun getListFollowing() {
+        if(cachedFollowing != null){
+            _usernameFollower.postValue(cachedFollowing!!)
+        } else {
+            _isLoading.value = true
+            query = username.value ?: ""
+            viewModelScope.launch(Dispatchers.IO) {
+                try {
+                    val response = ApiConfig.getApiService().getFollowing(query).execute()
+                    if (response.isSuccessful) {
+                        _isLoading.postValue(false)
+                        cachedFollowing = response.body()
+                        _usernameFollowing.postValue(response.body())
+                    } else {
+                        Log.e(TAG, "getListFollower: ${response.message()}")
+                    }
+                } catch (t: Throwable) {
+                    Log.e(TAG, "getListFollower: ${t.message}")
+                }
             }
         }
     }
 
-    internal fun getListFollowing() {
-        _isLoading.value = true
-        query = username.value ?: ""
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val response = ApiConfig.getApiService().getFollowing(query).execute()
-                if (response.isSuccessful) {
-                    _isLoading.postValue(false)
-                    _usernameFollowing.postValue(response.body())
-                } else {
-                    Log.e(TAG, "getListFollower: ${response.message()}")
-                }
-            } catch (t: Throwable) {
-                Log.e(TAG, "getListFollower: ${t.message}")
-            }
-        }
+    fun clearCache() {
+        cachedFollowers = null
+        cachedFollowing = null
     }
 
 }
