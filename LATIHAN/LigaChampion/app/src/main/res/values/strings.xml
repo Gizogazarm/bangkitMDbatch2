@@ -1,0 +1,91 @@
+<resources>
+    <string name="app_name">Liga Champion</string>
+    <string name="title_about">About</string>
+    <string name="click_detail">Klik untuk lebih detail</string>
+    <string name="title_bola">Klub Bola</string>
+    <string name="jumlah_gelar">Jumlah Gelar</string>
+    <string name="logo_bola">show_logo_bola</string>
+
+    <string-array name="data_bola">
+        <item>Chelsea</item>
+        <item>Manchester United</item>
+        <item>Inter Milan</item>
+        <item>Liverpool</item>
+        <item>Real Madrid</item>
+        <item>Barcelona FC</item>
+        <item>Juventus</item>
+        <item>Bayern Munchen</item>
+        <item>Manchester City</item>
+        <item>Arsenal</item>
+    </string-array>
+
+    <string-array name="description_bola">
+        <item>Klub yang berasal dari Liga Inggris dan berada pada kota London dengan corak khas berwarna biru telah memenangkan liga champion sebanyak 2 kali yaitu tepatnya berada pada tahun 2012 dan 2021. Pelatih yang meraih nya kala itu adalah Roberto di Matteo dan Thomas Tuchel. Chelsea meraih liga Champion penuh dengan perjuangan dan semangat tinggi </item>
+        <item>Klub yang berasal dari Liga Inggris dan mempunyai fans dengan basis yang sangat besar di dunia ini dan salah satu fans toxic di dunia ini telah memenangkan liga champion sebanyak 3 kali yaitu 1968 , 1999 dan 2008. Pelatih yang meraih Liga champion di Manchester United ialah Sir Matt Busby (1968) dan Sir Alex Ferguson (1999, 2008) . Manchester United dikenal menakutkan pada era Sir Alex Ferguson dan setelahnya Manchester United terkenal sebagai top club komedian yang dibintangi Maguire sebagai jagoan stand up comedian dari klub tersebut</item>
+        <item>Klub yang berasal dari Liga Italia ini , dan mempunyai stadion "kos bareng" dengan saudara bebuyutan yaitu Aceng Milan eh AC Milan dan mempunyai ciri khas biru hitam telah memenangkan liga champion sebanyak 3 kali yaitu 1964 , 1965 , 2010 . Pelatih tersebut yaitu helenio hereira ( 1964 , 1965 ) dan The Special One , pelatih terbaik di dunia (Jose Mourinho) pada tahun 2010. Tahun 2010 akan diinget sebagai tahun bersejarah tidak hanya memenangkan liga champion , tetapi TREBLE WINNER dan dengan permainan yang sangat indah dan menawan dengan BENTENG YANG KOKOH DAN TAK TERTANDINGI</item>
+        <item>Klub yang berasal dari Liga Inggris dan berasal dari kota merseyside aka kota liverpool ini menjadi klub tersukses di Liga Inggris dalam meraih liga champion yaitu sebanyak enam kali . Klub yang terkenal oleh icon yaitu kecap bangau atau burung bangau ini , mempunyai sejarah yang luar biasa di malam istanbul pada tahun 2005. Gelar liga champion yang diraih pada tahun 1977, 1978, 1981,1984 ,2005 dan yang terakhir tahun 2019. </item>
+        <item>Klub yang berasal dari Liga Spanyol ini menjadikan klub dengan pengoleksi liga champion terbanyak yaitu 14 gelar Liga champion sehingga jangan mengejek klub ini karena kalau di ejek maka akan menyebutkan gelar tersebut ke dedek decul</item>
+        <item>Klub yang berasal dari liga spanyol ini meraih gelar liga champion sebanyak 5 kali yaitu pada tahun 1992 , 2006, 2009 , 2011 dan 2015 . Gelar paling kontroversi yaitu pada tahun 2009 ketika melawan chelsea , karena barca meraih sixtuple yang diagung-agungkan padahal decul tahu bahwa gelar tersebut sangat - sangat HARAM .. wkwkwk</item>
+        <item>Klub yang berasal dari liga italia ini menjadi salah satu peraih liga champion terbanyak 7 kali , eh maap runner up 7 kali dan meraih 2 liga champion . klub yang mempunyai julukan kuda catur ini , selalu menangis di final sebanyak 7 kali mungkin sogokan nya kurang tidak seperti di Italia tahun 2006.</item>
+        <item>Klub yang berasal dari liga bayern eh liga Jerman menjadi salah satu peraih liga champion terbanyak sebanyak 6 kali bersama dengan liverpool , harusnya klub ini bisa meraih banyak liga champion karena di liga jerman hanya 1 klub aja yang bermain bola </item>
+        <item>Klub yang berasal dari Liga Inggris ini adalah rival sekota dari MUnyuk atau Manchester United yang didirikan sejak 2009 ketika syeikh mansur datang wkwkwk , tanpa uang klub ini hanya sebatas anak rantau di liga inggris , cocoknya di championship . Baru meraih liga champion tahun lalu beserta treble winnernya (Liga Inggris, Piala FA , Liga Champion )</item>
+        <item>Klub yang berasal dari Liga inggris ini mengaku klub terbesar dari london, eh Liga Champion aja ga punya ,, CHUUUUUUUAKS ... </item>
+    </string-array>
+
+    <string-array name="jumlah_gelar">
+        <item>Jumlah 2 Gelar</item>
+        <item>Jumlah 3 Gelar</item>
+        <item>Jumlah 3 Gelar</item>
+        <item>Jumlah 6 Gelar</item>
+        <item>Jumlah 14 Gelar</item>
+        <item>Jumlah 5 Gelar</item>
+        <item>Jumlah 2 Gelar</item>
+        <item>Jumlah 6 Gelar</item>
+        <item>Jumlah 1 Gelar</item>
+        <item>JANGAN DIPENCET</item>
+    </string-array>
+
+    <string-array name="foto_bola">
+        <item>https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/190px-Chelsea_FC.svg.png</item>
+        <item>https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/190px-Manchester_United_FC_crest.svg.png</item>
+        <item>https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/FC_Internazionale_Milano_2021.svg/180px-FC_Internazionale_Milano_2021.svg.png</item>
+        <item>https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/180px-Liverpool_FC.svg.png</item>
+        <item>https://upload.wikimedia.org/wikipedia/en/thumb/5/56/Real_Madrid_CF.svg/160px-Real_Madrid_CF.svg.png</item>
+        <item>https://upload.wikimedia.org/wikipedia/en/thumb/4/47/FC_Barcelona_%28crest%29.svg/190px-FC_Barcelona_%28crest%29.svg.png</item>
+        <item>https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Juventus_FC_2017_icon_%28black%29.svg/110px-Juventus_FC_2017_icon_%28black%29.svg.png</item>
+        <item>https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/FC_Bayern_M%C3%BCnchen_logo_%282017%29.svg/190px-FC_Bayern_M%C3%BCnchen_logo_%282017%29.svg.png</item>
+        <item>https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/190px-Manchester_City_FC_badge.svg.png</item>
+        <item>https://upload.wikimedia.org/wikipedia/id/thumb/5/53/Arsenal_FC.svg/170px-Arsenal_FC.svg.png</item>
+    </string-array>
+
+    <string-array name="foto_pemain_bola">
+        <item>https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Frank_Lampard_2019.jpg/330px-Frank_Lampard_2019.jpg</item>
+        <item>https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Harry_Maguire_2021.jpg/330px-Harry_Maguire_2021.jpg</item>
+        <item>https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Lautaro_Mart%C3%ADnez_%28cropped%29.jpg/330px-Lautaro_Mart%C3%ADnez_%28cropped%29.jpg</item>
+        <item>https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Loris_Karius.jpg/330px-Loris_Karius.jpg</item>
+        <item>https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Pepe_2018.jpg/330px-Pepe_2018.jpg</item>
+        <item>https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/L._Figo_2017_%28cropped%29.jpg/330px-L._Figo_2017_%28cropped%29.jpg</item>
+        <item>https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Gianluigi_Buffon_%2831784615942%29_%28cropped%29.jpg/330px-Gianluigi_Buffon_%2831784615942%29_%28cropped%29.jpg</item>
+        <item>https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Sadio_Man%C3%A9_Senegal.jpg/330px-Sadio_Man%C3%A9_Senegal.jpg</item>
+        <item>https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Sheikh_Mansour_shaking_the_hand_of_Michael_Spindelegger_%28crop%29.jpg/330px-Sheikh_Mansour_shaking_the_hand_of_Michael_Spindelegger_%28crop%29.jpg</item>
+        <item>https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Nicklas_Bendtner_2017.jpg/330px-Nicklas_Bendtner_2017.jpg</item>
+    </string-array>
+
+    <string-array name="nama_pemain_bola">
+        <item>Frank Lampard</item>
+        <item>Lord Harry Maguire</item>
+        <item>Lautaro Martinez</item>
+        <item>Loris Karius</item>
+        <item>Pepe</item>
+        <item>Luis Figo</item>
+        <item>Buffon</item>
+        <item>Sadio Mane</item>
+        <item>Syeikh Mansour</item>
+        <item>Lord Bendtner</item>
+    </string-array>
+
+    <string name="title_pemain_bola">Top Player</string>
+
+    <string name="about_me">NAMA SAYA HELMI NAUFAL K , LEARNING PATH MOBILE DEVELOPMENT BANGKIT BATCH 2 , EMAIL YANG TERDAFTAR : helminaufalkurniawan@gmail.com </string>
+
+</resources>

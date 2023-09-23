@@ -1,0 +1,26 @@
+package com.example.submission1.model.retrofit
+
+import com.example.submission1.model.response.GetDetailUsernameResponse
+import com.example.submission1.model.response.ItemsItem
+import com.example.submission1.model.response.ListUsernameResponse
+import retrofit2.Call
+import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.http.Query
+
+interface ApiService {
+    //@Headers("Authorization: token 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")
+    @GET("search/users")
+    fun searchUsers(@Query("q") query: String): Call<ListUsernameResponse>
+
+    @GET("users/{username}")
+    fun getusername(@Path("username") username: String): Call<GetDetailUsernameResponse>
+
+    @GET("users/{username}/following")
+    fun getFollowing (@Path("username")username: String): Call<List<ItemsItem>>
+
+    @GET("users/{username}/followers")
+    fun getFollowers (@Path("username")username: String): Call<List<ItemsItem>>
+
+
+}
