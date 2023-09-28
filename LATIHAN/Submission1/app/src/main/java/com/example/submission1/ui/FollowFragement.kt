@@ -75,14 +75,16 @@ class FollowFragement : Fragment() {
 
     override fun onResume() {
         super.onResume()
+
+        detailUsernameViewModel.clearCache()
+
         if (position == 1) {
-            detailUsernameViewModel.clearCache()
+
             detailUsernameViewModel.getListFollower()
             detailUsernameViewModel.isLoading.observe(viewLifecycleOwner){
                 showLoading(it)
             }
         } else {
-            detailUsernameViewModel.clearCache()
             detailUsernameViewModel.getListFollowing()
             detailUsernameViewModel.isLoading.observe(viewLifecycleOwner){
                 showLoading(it)
