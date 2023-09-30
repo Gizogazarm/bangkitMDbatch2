@@ -54,7 +54,7 @@ class DetailUsernameViewModel : ViewModel() {
         _isLoading.value = true
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response = ApiConfig.getApiService().getusername(query).execute()
+                val response = ApiConfig.instance.getusername(query).execute()
                 if (response.isSuccessful) {
                     _isLoading.postValue(false)
                     _avatar.postValue(response.body()?.avatarUrl)
@@ -79,7 +79,7 @@ class DetailUsernameViewModel : ViewModel() {
             query = username.value ?: ""
             viewModelScope.launch(Dispatchers.IO) {
                 try {
-                    val response = ApiConfig.getApiService().getFollowers(query).execute()
+                    val response = ApiConfig.instance.getFollowers(query).execute()
                     if (response.isSuccessful) {
                         _isLoading.postValue(false)
                         cachedFollowers = response.body()
@@ -104,7 +104,7 @@ class DetailUsernameViewModel : ViewModel() {
             query = username.value ?: ""
             viewModelScope.launch(Dispatchers.IO) {
                 try {
-                    val response = ApiConfig.getApiService().getFollowing(query).execute()
+                    val response = ApiConfig.instance.getFollowing(query).execute()
                     if (response.isSuccessful) {
                         _isLoading.postValue(false)
                         cachedFollowing = response.body()

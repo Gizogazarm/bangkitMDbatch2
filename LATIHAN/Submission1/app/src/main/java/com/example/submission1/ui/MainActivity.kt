@@ -6,11 +6,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.activity.viewModels
 import com.example.submission1.R
 import com.example.submission1.adapter.AdapterListUsername
 import com.example.submission1.databinding.ActivityMainBinding
 import com.example.submission1.model.response.ItemsItem
+import com.example.submission1.model.retrofit.ApiConfig
+import com.example.submission1.repository.MainViewRepository
 import com.example.submission1.viewModel.MainViewModel
 import com.google.android.material.search.SearchBar
 import com.google.android.material.search.SearchView
@@ -18,14 +19,16 @@ import com.google.android.material.search.SearchView
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
     private var nama: String = ""
-    private val mainViewModel: MainViewModel by viewModels()
+    private val apiService by lazy { ApiConfig.instance }
+    private val repository by lazy { MainViewRepository(apiService) }
+    private val mainViewModel: MainViewModel by viewModelsFactory { MainViewModel(repository) }
 
 
     companion object {
         const val TAG = "tag"
-        const val USERNAME ="username"
+        const val USERNAME = "username"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,13 +36,13 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        with(binding){
-            showSearchView(searchView,searchBar)
+        with(binding) {
+            showSearchView(searchView, searchBar)
             searchView.inflateMenu(R.menu.menu_setting)
 
 
-            mainViewModel.listUsername.observe(this@MainActivity){
-                if(it != null) {
+            mainViewModel.listUsername.observe(this@MainActivity) {
+                if (it != null) {
                     Log.d(TAG, "Showing List of Users. Nama: $nama, List Size: ${it.size}")
                     showListUsername(it)
                 }
@@ -49,9 +52,9 @@ class MainActivity : AppCompatActivity() {
                 showLoading(it)
             }
 
-            mainViewModel.totalCount.observe(this@MainActivity){
-                if(it == 0) {
-                    Toast.makeText(this@MainActivity,R.string.not_found,Toast.LENGTH_LONG).show()
+            mainViewModel.totalCount.observe(this@MainActivity) {
+                if (it == 0) {
+                    Toast.makeText(this@MainActivity, R.string.not_found, Toast.LENGTH_LONG).show()
                 }
             }
 
@@ -91,8 +94,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun selectedItemData(username: ItemsItem) {
-        val intent = Intent(this,DetailActivity::class.java)
-        intent.putExtra(USERNAME,username.login)
+        val intent = Intent(this, DetailActivity::class.java)
+        intent.putExtra(USERNAME, username.login)
         startActivity(intent)
     }
 

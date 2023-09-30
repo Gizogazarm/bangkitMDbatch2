@@ -6,8 +6,36 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-class ApiConfig {
-    companion object {
+object ApiConfig {
+
+    private const val BASE_URL = "https://api.github.com"
+
+    val instance: ApiService by lazy {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
+            .build()
+
+        retrofit.create(ApiService::class.java)
+    }
+
+    val authInterceptor = Interceptor { chain ->
+        val req = chain.request()
+        val requestHeaders = req.newBuilder()
+            .addHeader("Authorization", "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")
+            .build()
+        chain
+            .proceed(requestHeaders)
+    }
+
+    val client = OkHttpClient.Builder()
+        .addNetworkInterceptor(authInterceptor)
+        .build()
+
+
+
+    /*companion object {
         fun getApiService(): ApiService {
             val authInterceptor = Interceptor { chain ->
                 val req = chain.request()
@@ -31,5 +59,5 @@ class ApiConfig {
                 class.java
             )
         }
-    }
+    }*/
 }

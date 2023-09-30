@@ -1,24 +1,17 @@
 package com.example.submission1.viewModel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.submission1.model.response.ItemsItem
-import com.example.submission1.model.retrofit.ApiConfig
+import com.example.submission1.repository.MainViewRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
+class MainViewModel(private val repository: MainViewRepository) : ViewModel() {
 
-class MainViewModel : ViewModel() {
-
-    private lateinit var query: String
-
-    companion object {
-        const val TAG = "MainViewModel"
-    }
 
     private val _username = MutableLiveData<String>()
     val username: LiveData<String> = _username
@@ -38,25 +31,15 @@ class MainViewModel : ViewModel() {
     }
 
 
-    internal fun searchUsername() {
+    fun searchUsername() {
         _isLoading.value = true
-        query = username.value ?: ""
+        repository.setUsername(_username.value!!)
         viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val response = ApiConfig.getApiService().searchUsers(query).execute()
-                if (response.isSuccessful) {
-                    _isLoading.postValue(false)
-                    _totalCount.postValue(response.body()?.totalCount)
-                    _listUsername.postValue(response.body()?.items)
-                    Log.d(TAG, "Search Berhasil")
-                } else {
-                    Log.e(TAG, "Search Gagal ${response.message()}" )
-                }
-            } catch (t: Throwable) {
-                Log.e(TAG, "Search gagal. Error Message: ${t.message}" )
-            }
+            repository.searchUsername()
+             _listUsername.postValue(repository.getListItem())
+            _totalCount.postValue(repository.getTotalCount())
+            _isLoading.postValue(false)
         }
-
 
 
     }
