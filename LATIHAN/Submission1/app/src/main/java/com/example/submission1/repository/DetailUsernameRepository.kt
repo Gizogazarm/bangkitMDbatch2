@@ -3,6 +3,7 @@ package com.example.submission1.repository
 import android.util.Log
 import com.example.submission1.model.response.GetDetailUsernameResponse
 import com.example.submission1.model.response.ItemsItem
+import com.example.submission1.model.response.ListUsernameResponse
 import com.example.submission1.model.retrofit.ApiService
 
 class DetailUsernameRepository(private val apiService: ApiService) {
@@ -11,14 +12,6 @@ class DetailUsernameRepository(private val apiService: ApiService) {
     private lateinit var getDetailUsername: GetDetailUsernameResponse
     private lateinit var usernameFollower: List<ItemsItem>
     private lateinit var usernameFollowing: List<ItemsItem>
-
-    fun getListUsernameFollower(): List<ItemsItem> {
-        return usernameFollower
-    }
-
-    fun getListUsernameFollowing(): List<ItemsItem> {
-        return usernameFollowing
-    }
 
 
     fun getDetailUsername(): GetDetailUsernameResponse {
@@ -36,7 +29,7 @@ class DetailUsernameRepository(private val apiService: ApiService) {
         return getDetailUsername
     }
 
-    fun getFollower() {
+    fun getFollower(): List<ItemsItem> {
         val response = apiService.getFollowers(username).execute()
         try {
             if (response.isSuccessful) {
@@ -47,9 +40,10 @@ class DetailUsernameRepository(private val apiService: ApiService) {
         }catch (t: Throwable) {
             Log.e(TAG, "getFollower: error ${response.message()} " )
         }
+        return usernameFollower
     }
 
-    fun getFollowing() {
+    fun getFollowing(): List<ItemsItem> {
         val response = apiService.getFollowing(username).execute()
         try {
             if (response.isSuccessful) {
@@ -60,6 +54,8 @@ class DetailUsernameRepository(private val apiService: ApiService) {
         }catch (t: Throwable) {
             Log.e(TAG, "getFollower: error ${response.message()} ")
         }
+
+        return usernameFollowing
     }
 
     fun setUsername(username: String) {

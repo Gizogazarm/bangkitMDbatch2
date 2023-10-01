@@ -71,9 +71,8 @@ class DetailUsernameViewModel(private val repository: DetailUsernameRepository) 
             _isLoadingFollow.value = true
             repository.setUsername(_username.value!!)
             viewModelScope.launch(Dispatchers.IO) {
-                repository.getFollower()
-                _usernameFollower.postValue(repository.getListUsernameFollower())
-                cachedFollowers = repository.getListUsernameFollower()
+                cachedFollowers = repository.getFollower()
+                _usernameFollower.postValue(cachedFollowers!!)
                 _isLoadingFollow.postValue(false)
             }
 
@@ -87,9 +86,8 @@ class DetailUsernameViewModel(private val repository: DetailUsernameRepository) 
         } else {
             _isLoadingFollow.value = true
             viewModelScope.launch(Dispatchers.IO) {
-                repository.getFollowing()
-                _usernameFollowing.postValue(repository.getListUsernameFollowing())
-                cachedFollowing = repository.getListUsernameFollowing()
+                cachedFollowing = repository.getFollowing()
+                _usernameFollowing.postValue(cachedFollowing!!)
                 _isLoadingFollow.postValue(false)
 
             }
