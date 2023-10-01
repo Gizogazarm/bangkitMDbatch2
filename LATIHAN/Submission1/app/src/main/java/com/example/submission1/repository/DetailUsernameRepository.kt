@@ -8,34 +8,9 @@ import com.example.submission1.model.retrofit.ApiService
 class DetailUsernameRepository(private val apiService: ApiService) {
 
     private lateinit var username: String
-    /*private lateinit var nama: String
-    private lateinit var avatar: String
-    private var followingNumber: Int = 0
-    private var followerNumber: Int = 0*/
     private lateinit var getDetailUsername: GetDetailUsernameResponse
     private lateinit var usernameFollower: List<ItemsItem>
     private lateinit var usernameFollowing: List<ItemsItem>
-
-   /* fun getUsername(): String {
-        return username
-    }
-
-    fun getNama(): String {
-        return nama
-    }
-
-    fun getAvatar(): String {
-        return avatar
-    }
-
-    fun getFollowingNumber(): Int {
-        return followingNumber
-    }
-
-    fun getFollowerNumber(): Int {
-        return followerNumber
-    }*/
-
 
     fun getListUsernameFollower(): List<ItemsItem> {
         return usernameFollower
@@ -51,11 +26,6 @@ class DetailUsernameRepository(private val apiService: ApiService) {
         try {
             if (response.isSuccessful) {
                 getDetailUsername = response.body()!!
-                /*username = response.body()!!.login
-                nama = response.body()!!.name
-                avatar = response.body()!!.avatarUrl
-                followerNumber = response.body()!!.followers
-                followingNumber = response.body()!!.following*/
             } else {
                 Log.e(TAG, "getDetailUsername: error ${response.message()}")
             }

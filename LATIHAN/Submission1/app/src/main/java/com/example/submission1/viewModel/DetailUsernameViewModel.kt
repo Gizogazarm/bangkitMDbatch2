@@ -34,14 +34,13 @@ class DetailUsernameViewModel(private val repository: DetailUsernameRepository) 
     private val _usernameFollowing = MutableLiveData<List<ItemsItem>>()
     val usernameFollowing: LiveData<List<ItemsItem>> = _usernameFollowing
 
-    private val _getDataUsername = MutableLiveData<GetDetailUsernameResponse>()
-    val getDataUsername: LiveData<GetDetailUsernameResponse> = _getDataUsername
-
     private val _isLoadingDetail = MutableLiveData<Boolean>().apply { value = false }
     val isLoadingDetail: LiveData<Boolean> = _isLoadingDetail
 
     private val _isLoadingFollow = MutableLiveData<Boolean>().apply { value = false }
     val isLoadingFollow: LiveData<Boolean> = _isLoadingFollow
+
+    private lateinit var getDetailUsernameResponse: GetDetailUsernameResponse
 
     private var cachedFollowers: List<ItemsItem>? = null
     private var cachedFollowing: List<ItemsItem>? = null
@@ -54,12 +53,12 @@ class DetailUsernameViewModel(private val repository: DetailUsernameRepository) 
         _isLoadingDetail.value = true
         repository.setUsername(_username.value!!)
         viewModelScope.launch(Dispatchers.IO) {
-            _getDataUsername.postValue(repository.getDetailUsername())
-            _username.postValue(repository.getUsername())
-            _nama.postValue(repository.getNama())
-            _avatar.postValue(repository.getAvatar())
-            _followerNumber.postValue(repository.getFollowerNumber())
-            _followingNumber.postValue(repository.getFollowingNumber())
+            getDetailUsernameResponse = repository.getDetailUsername()
+            _username.postValue(getDetailUsernameResponse.login)
+            _nama.postValue(getDetailUsernameResponse.name)
+            _avatar.postValue(getDetailUsernameResponse.avatarUrl)
+            _followerNumber.postValue(getDetailUsernameResponse.followers)
+            _followingNumber.postValue(getDetailUsernameResponse.following)
             _isLoadingDetail.postValue(false)
         }
 
