@@ -11,6 +11,7 @@ import com.example.submission1.repository.DetailUsernameRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+
 class DetailUsernameViewModel(private val repository: DetailUsernameRepository) : ViewModel() {
 
     private val _username = MutableLiveData<String>()
@@ -51,14 +52,15 @@ class DetailUsernameViewModel(private val repository: DetailUsernameRepository) 
     private var getDetailUsernameResponse: GetDetailUsernameResponse? = null
     private var cachedFollowers: List<ItemsItem>? = null
     private var cachedFollowing: List<ItemsItem>? = null
+    private lateinit var query: String
 
     fun setUsername(username: String?) {
-        _username.value = username!!
+        query = username!!
     }
 
     fun getDetailUsername() {
         _isLoadingDetail.value = true
-        repository.setUsername(_username.value!!)
+        repository.setUsername(query)
         viewModelScope.launch(Dispatchers.IO) {
             repository.getDetailUsername(object : DetailUsernameRepository.Listener {
                 override fun showMessageError(message: String) {
@@ -87,7 +89,6 @@ class DetailUsernameViewModel(private val repository: DetailUsernameRepository) 
             _usernameFollower.postValue(cachedFollowers!!)
         } else {
             _isLoadingFollow.value = true
-            repository.setUsername(_username.value!!)
             viewModelScope.launch(Dispatchers.IO) {
                 repository.getFollower(object : DetailUsernameRepository.Listener {
                     override fun showMessageError(message: String) {
