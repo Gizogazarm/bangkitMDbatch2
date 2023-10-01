@@ -1,22 +1,17 @@
 package com.example.submission1.viewModel
 
-import android.util.Log
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.submission1.model.response.GetDetailUsernameResponse
 import com.example.submission1.model.response.ItemsItem
-import com.example.submission1.model.retrofit.ApiConfig
+import com.example.submission1.repository.DetailUsernameRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class DetailUsernameViewModel : ViewModel() {
-
-    private lateinit var query: String
-
-    companion object {
-        const val TAG = "DetailUsernameViewModel"
-    }
+class DetailUsernameViewModel(private val repository: DetailUsernameRepository) : ViewModel() {
 
     private val _username = MutableLiveData<String>()
     val username: LiveData<String> = _username
@@ -39,8 +34,14 @@ class DetailUsernameViewModel : ViewModel() {
     private val _usernameFollowing = MutableLiveData<List<ItemsItem>>()
     val usernameFollowing: LiveData<List<ItemsItem>> = _usernameFollowing
 
-    private val _isLoading = MutableLiveData<Boolean>().apply { value = false }
-    val isLoading: LiveData<Boolean> = _isLoading
+    private val _getDataUsername = MutableLiveData<GetDetailUsernameResponse>()
+    val getDataUsername: LiveData<GetDetailUsernameResponse> = _getDataUsername
+
+    private val _isLoadingDetail = MutableLiveData<Boolean>().apply { value = false }
+    val isLoadingDetail: LiveData<Boolean> = _isLoadingDetail
+
+    private val _isLoadingFollow = MutableLiveData<Boolean>().apply { value = false }
+    val isLoadingFollow: LiveData<Boolean> = _isLoadingFollow
 
     private var cachedFollowers: List<ItemsItem>? = null
     private var cachedFollowing: List<ItemsItem>? = null
@@ -49,72 +50,49 @@ class DetailUsernameViewModel : ViewModel() {
         _username.value = username!!
     }
 
-    internal fun getDetailUsername() {
-        query = username.value ?: ""
-        _isLoading.value = true
+    fun getDetailUsername() {
+        _isLoadingDetail.value = true
+        repository.setUsername(_username.value!!)
         viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val response = ApiConfig.instance.getusername(query).execute()
-                if (response.isSuccessful) {
-                    _isLoading.postValue(false)
-                    _avatar.postValue(response.body()?.avatarUrl)
-                    _username.postValue(response.body()?.login)
-                    _nama.postValue(response.body()?.name)
-                    _followerNumber.postValue(response.body()?.followers)
-                    _followingNumber.postValue(response.body()?.following)
-                } else {
-                    Log.e(TAG, "search gagal ${response.message()}")
-                }
-            } catch (t: Throwable) {
-                Log.e(TAG, "Search gagal. Error Message: ${t.message} ")
-            }
+            _getDataUsername.postValue(repository.getDetailUsername())
+            _username.postValue(repository.getUsername())
+            _nama.postValue(repository.getNama())
+            _avatar.postValue(repository.getAvatar())
+            _followerNumber.postValue(repository.getFollowerNumber())
+            _followingNumber.postValue(repository.getFollowingNumber())
+            _isLoadingDetail.postValue(false)
         }
+
     }
 
-    internal fun getListFollower() {
-        if (cachedFollowers != null){
+    fun getListFollower() {
+        if (cachedFollowers != null) {
             _usernameFollower.postValue(cachedFollowers!!)
         } else {
-            _isLoading.value = true
-            query = username.value ?: ""
+            _isLoadingFollow.value = true
+            repository.setUsername(_username.value!!)
             viewModelScope.launch(Dispatchers.IO) {
-                try {
-                    val response = ApiConfig.instance.getFollowers(query).execute()
-                    if (response.isSuccessful) {
-                        _isLoading.postValue(false)
-                        cachedFollowers = response.body()
-                        _usernameFollower.postValue(response.body())
-                        Log.d(TAG, "getListFollower: Berhasil ${response.message()}")
-                    } else {
-                        Log.e(TAG, "getListFollower: ${response.message()}")
-                    }
-                } catch (t: Throwable) {
-                    Log.e(TAG, "getListFollower: ${t.message}")
-                }
+                repository.getFollower()
+                _usernameFollower.postValue(repository.getListUsernameFollower())
+                cachedFollowers = repository.getListUsernameFollower()
+                _isLoadingFollow.postValue(false)
             }
+
         }
 
     }
 
-    internal fun getListFollowing() {
-        if(cachedFollowing != null){
-            _usernameFollower.postValue(cachedFollowing!!)
+    fun getListFollowing() {
+        if (cachedFollowing != null) {
+            _usernameFollowing.postValue(cachedFollowing!!)
         } else {
-            _isLoading.value = true
-            query = username.value ?: ""
+            _isLoadingFollow.value = true
             viewModelScope.launch(Dispatchers.IO) {
-                try {
-                    val response = ApiConfig.instance.getFollowing(query).execute()
-                    if (response.isSuccessful) {
-                        _isLoading.postValue(false)
-                        cachedFollowing = response.body()
-                        _usernameFollowing.postValue(response.body())
-                    } else {
-                        Log.e(TAG, "getListFollower: ${response.message()}")
-                    }
-                } catch (t: Throwable) {
-                    Log.e(TAG, "getListFollower: ${t.message}")
-                }
+                repository.getFollowing()
+                _usernameFollowing.postValue(repository.getListUsernameFollowing())
+                cachedFollowing = repository.getListUsernameFollowing()
+                _isLoadingFollow.postValue(false)
+
             }
         }
     }

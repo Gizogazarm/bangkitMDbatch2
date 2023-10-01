@@ -3,13 +3,14 @@ package com.example.submission1.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.submission1.R
 import com.example.submission1.adapter.SectionPagerAdapter
 import com.example.submission1.databinding.ActivityDetailBinding
+import com.example.submission1.model.retrofit.ApiConfig
+import com.example.submission1.repository.DetailUsernameRepository
 import com.example.submission1.viewModel.DetailUsernameViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -26,7 +27,10 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
     private var getUsername: String? = ""
     private lateinit var fragmentState : SectionPagerAdapter
-    private val detailUsernameViewModel: DetailUsernameViewModel by viewModels()
+    private val apiService by lazy { ApiConfig.instance }
+    private val repository by lazy { DetailUsernameRepository(apiService) }
+    private val detailUsernameViewModel: DetailUsernameViewModel by viewModelsFactory { DetailUsernameViewModel(repository) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
@@ -37,10 +41,7 @@ class DetailActivity : AppCompatActivity() {
             detailUsernameViewModel.setUsername(getUsername)
 
             detailUsernameViewModel.username.observe(this@DetailActivity) {
-                if(progressDetail.visibility == View.GONE) {
                     tvDetailUsername.text = it
-                }
-
             }
 
             detailUsernameViewModel.avatar.observe(this@DetailActivity){
@@ -53,7 +54,7 @@ class DetailActivity : AppCompatActivity() {
                 tvDetailNama.text = it
             }
 
-            detailUsernameViewModel.isLoading.observe(this@DetailActivity){
+            detailUsernameViewModel.isLoadingDetail.observe(this@DetailActivity){
                 showLoading(it)
             }
 
@@ -71,8 +72,6 @@ class DetailActivity : AppCompatActivity() {
             viewPager.adapter = fragmentState
             tabShowOff(tabs,viewPager)
         }
-
-
 
 
 

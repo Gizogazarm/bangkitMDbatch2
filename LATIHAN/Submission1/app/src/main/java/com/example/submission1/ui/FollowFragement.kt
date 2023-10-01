@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import com.example.submission1.adapter.AdapterListUsername
 import com.example.submission1.databinding.FragmentFollowBinding
 import com.example.submission1.model.response.ItemsItem
@@ -23,7 +23,7 @@ class FollowFragement : Fragment() {
     private val binding get() = _binding!!
     private var username = ""
     private var position = 0
-    private val detailUsernameViewModel: DetailUsernameViewModel by viewModels()
+    private val detailUsernameViewModel:DetailUsernameViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,7 +48,7 @@ class FollowFragement : Fragment() {
                 showRvList(it)
             }
 
-            detailUsernameViewModel.isLoading.observe(viewLifecycleOwner){
+            detailUsernameViewModel.isLoadingFollow.observe(viewLifecycleOwner){
                 showLoading(it)
             }
         } else {
@@ -57,7 +57,7 @@ class FollowFragement : Fragment() {
                 showRvList(it)
             }
 
-            detailUsernameViewModel.isLoading.observe(viewLifecycleOwner){
+            detailUsernameViewModel.isLoadingFollow.observe(viewLifecycleOwner){
                 showLoading(it)
             }
         }
@@ -76,22 +76,21 @@ class FollowFragement : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        detailUsernameViewModel.clearCache()
+            detailUsernameViewModel.clearCache()
 
-        if (position == 1) {
-
-            detailUsernameViewModel.getListFollower()
-            detailUsernameViewModel.isLoading.observe(viewLifecycleOwner){
-                showLoading(it)
+            if (position == 1) {
+                detailUsernameViewModel.getListFollower()
+                detailUsernameViewModel.isLoadingFollow.observe(viewLifecycleOwner){
+                    showLoading(it)
+                }
+            } else {
+                detailUsernameViewModel.getListFollowing()
+                detailUsernameViewModel.isLoadingFollow.observe(viewLifecycleOwner){
+                    showLoading(it)
+                }
             }
-        } else {
-            detailUsernameViewModel.getListFollowing()
-            detailUsernameViewModel.isLoading.observe(viewLifecycleOwner){
-                showLoading(it)
-            }
-        }
-
     }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
