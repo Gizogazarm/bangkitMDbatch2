@@ -41,7 +41,10 @@ class DetailUsernameViewModel(private val repository: DetailUsernameRepository) 
     val isLoadingFollow: LiveData<Boolean> = _isLoadingFollow
 
     private val _onError = MutableLiveData<Boolean>().apply { value = false }
+    val onError: LiveData<Boolean> = _onError
+
     private val _onErrorFollow = MutableLiveData<Boolean>().apply { value = false }
+
     private val _onErrorMsg = MutableLiveData<String>()
     val onErrorMsg: LiveData<String> = _onErrorMsg
 
@@ -57,22 +60,23 @@ class DetailUsernameViewModel(private val repository: DetailUsernameRepository) 
         _isLoadingDetail.value = true
         repository.setUsername(_username.value!!)
         viewModelScope.launch(Dispatchers.IO) {
-            getDetailUsernameResponse = repository.getDetailUsername(object : DetailUsernameRepository.Listener {
+            repository.getDetailUsername(object : DetailUsernameRepository.Listener {
                 override fun showMessageError(message: String) {
                     _onError.postValue(true)
                     _onErrorMsg.postValue(message)
                 }
 
+                override fun result(source: Any?) {
+                    getDetailUsernameResponse = source as GetDetailUsernameResponse
+                    _username.postValue(getDetailUsernameResponse!!.login)
+                    _nama.postValue(getDetailUsernameResponse!!.name)
+                    _avatar.postValue(getDetailUsernameResponse!!.avatarUrl)
+                    _followerNumber.postValue(getDetailUsernameResponse!!.followers)
+                    _followingNumber.postValue(getDetailUsernameResponse!!.following)
+                    _isLoadingDetail.postValue(false)
+                }
             })
 
-            if (_onError.value!!) {
-                _username.postValue(getDetailUsernameResponse!!.login)
-                _nama.postValue(getDetailUsernameResponse!!.name)
-                _avatar.postValue(getDetailUsernameResponse!!.avatarUrl)
-                _followerNumber.postValue(getDetailUsernameResponse!!.followers)
-                _followingNumber.postValue(getDetailUsernameResponse!!.following)
-                _isLoadingDetail.postValue(false)
-            }
 
         }
 
@@ -85,18 +89,20 @@ class DetailUsernameViewModel(private val repository: DetailUsernameRepository) 
             _isLoadingFollow.value = true
             repository.setUsername(_username.value!!)
             viewModelScope.launch(Dispatchers.IO) {
-                cachedFollowers = repository.getFollower(object : DetailUsernameRepository.Listener {
+                repository.getFollower(object : DetailUsernameRepository.Listener {
                     override fun showMessageError(message: String) {
                         _onErrorFollow.postValue(true)
                         _onErrorMsg.postValue(message)
                     }
 
+                    override fun result(source: Any?) {
+                        cachedFollowers = source as List<ItemsItem>
+                        _usernameFollower.postValue(cachedFollowers!!)
+                        _isLoadingFollow.postValue(false)
+                    }
+
                 })
 
-                if (_onErrorFollow.value!!) {
-                    _usernameFollower.postValue(cachedFollowers!!)
-                    _isLoadingFollow.postValue(false)
-                }
 
             }
 
@@ -110,18 +116,20 @@ class DetailUsernameViewModel(private val repository: DetailUsernameRepository) 
         } else {
             _isLoadingFollow.value = true
             viewModelScope.launch(Dispatchers.IO) {
-                cachedFollowing = repository.getFollowing(object : DetailUsernameRepository.Listener {
+               repository.getFollowing(object : DetailUsernameRepository.Listener {
                     override fun showMessageError(message: String) {
                         _onErrorMsg.postValue(message)
                         _onError.postValue(true)
                     }
 
+                    override fun result(source: Any?) {
+                        cachedFollowing = source as List<ItemsItem>
+                        _usernameFollowing.postValue(cachedFollowing!!)
+                        _isLoadingFollow.postValue(false)
+                    }
+
                 })
 
-                if(_onErrorFollow.value!!) {
-                    _usernameFollowing.postValue(cachedFollowing!!)
-                    _isLoadingFollow.postValue(false)
-                }
 
             }
         }
