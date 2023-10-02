@@ -1,6 +1,7 @@
 package com.example.submission1.repository
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import com.example.submission1.model.response.GetDetailUsernameResponse
 import com.example.submission1.model.retrofit.ApiService
 import com.example.submission1.model.room.FavoriteUser
@@ -46,7 +47,10 @@ class DetailUsernameRepository(private val apiService: ApiService, private val f
             Log.e(TAG, "getFollower: error ${response.message()} " )
             listener.showMessageError(ERROR)
         }
+    }
 
+     fun getFavUser(): LiveData<FavoriteUser>{
+       return favoriteUserDao.getFavoriteByUsername(username)
     }
 
     fun getFollowing(listener: Listener) {

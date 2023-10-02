@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.submission1.model.response.GetDetailUsernameResponse
 import com.example.submission1.model.response.ItemsItem
+import com.example.submission1.model.room.FavoriteUser
 import com.example.submission1.repository.DetailUsernameRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -47,6 +48,8 @@ class DetailUsernameViewModel(private val repository: DetailUsernameRepository) 
     private val _onErrorFollow = MutableLiveData<Boolean>().apply { value = false }
     private val _onErrorMsgFollow = MutableLiveData<String>()
 
+    fun getDataFavUser(): LiveData<FavoriteUser> = repository.getFavUser()
+
     private val _onErrorMsg = MutableLiveData<String>()
     val onErrorMsg: LiveData<String> = _onErrorMsg
 
@@ -55,9 +58,12 @@ class DetailUsernameViewModel(private val repository: DetailUsernameRepository) 
     private var cachedFollowing: List<ItemsItem>? = null
     private lateinit var query: String
 
+
+
     fun setUsername(username: String?) {
         query = username!!
     }
+
 
     fun insertFavUser() {
         val username = getDetailUsernameResponse!!.login

@@ -1,7 +1,6 @@
 package com.example.submission1.ui
 
 import android.annotation.SuppressLint
-import android.app.Application
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -17,6 +16,7 @@ import com.example.submission1.adapter.SectionPagerAdapter
 import com.example.submission1.databinding.ActivityDetailBinding
 import com.example.submission1.model.retrofit.ApiConfig
 import com.example.submission1.model.room.FavoriteDatabase
+import com.example.submission1.model.room.FavoriteUser
 import com.example.submission1.repository.DetailUsernameRepository
 import com.example.submission1.viewModel.DetailUsernameViewModel
 import com.google.android.material.tabs.TabLayout
@@ -86,6 +86,10 @@ class DetailActivity : AppCompatActivity() {
 
             fab.setOnClickListener {
                 detailUsernameViewModel.insertFavUser()
+                detailUsernameViewModel.getDataFavUser().observe(this@DetailActivity) {
+                    btnFavUser(it)
+                }
+
             }
 
             detailUsernameViewModel.getDetailUsername()
@@ -133,5 +137,14 @@ class DetailActivity : AppCompatActivity() {
 
     private fun showLoading(isLoading: Boolean) {
         binding.progressDetail.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    private fun btnFavUser (favoriteUser: FavoriteUser?) {
+        if (favoriteUser == null ) {
+            binding.fab.setImageResource(R.drawable.baseline_favorite_border_24)
+        } else {
+            binding.fab.setImageResource(R.drawable.baseline_favorite_24)
+        }
+
     }
 }
