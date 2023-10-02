@@ -20,7 +20,7 @@ object ApiConfig {
         retrofit.create(ApiService::class.java)
     }
 
-    val authInterceptor = Interceptor { chain ->
+    private val authInterceptor = Interceptor { chain ->
         val req = chain.request()
         val requestHeaders = req.newBuilder()
             .addHeader("Authorization", "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")
@@ -29,35 +29,8 @@ object ApiConfig {
             .proceed(requestHeaders)
     }
 
-    val client = OkHttpClient.Builder()
+    private val client = OkHttpClient.Builder()
         .addNetworkInterceptor(authInterceptor)
         .build()
 
-
-
-    /*companion object {
-        fun getApiService(): ApiService {
-            val authInterceptor = Interceptor { chain ->
-                val req = chain.request()
-                val requestHeaders = req.newBuilder()
-                    .addHeader("Authorization", "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")
-                    .build()
-                chain
-                    .proceed(requestHeaders)
-            }
-
-            val client = OkHttpClient.Builder()
-                .addNetworkInterceptor(authInterceptor)
-                .build()
-            val retrofit = Retrofit.Builder()
-                .baseUrl("https://api.github.com")
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(client)
-                .build()
-            return retrofit.create(
-                ApiService::
-                class.java
-            )
-        }
-    }*/
 }

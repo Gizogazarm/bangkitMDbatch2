@@ -1,5 +1,7 @@
 package com.example.submission1.ui
 
+import android.annotation.SuppressLint
+import android.app.Application
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,6 +16,7 @@ import com.example.submission1.R
 import com.example.submission1.adapter.SectionPagerAdapter
 import com.example.submission1.databinding.ActivityDetailBinding
 import com.example.submission1.model.retrofit.ApiConfig
+import com.example.submission1.model.room.FavoriteDatabase
 import com.example.submission1.repository.DetailUsernameRepository
 import com.example.submission1.viewModel.DetailUsernameViewModel
 import com.google.android.material.tabs.TabLayout
@@ -34,7 +37,8 @@ class DetailActivity : AppCompatActivity() {
     private var getUsername: String? = ""
     private lateinit var fragmentState: SectionPagerAdapter
     private val apiService by lazy { ApiConfig.instance }
-    private val repository by lazy { DetailUsernameRepository(apiService) }
+    private val database by lazy { FavoriteDatabase.getInstance(application).favoriteDao()}
+    private val repository by lazy { DetailUsernameRepository(apiService,database) }
     private val detailUsernameViewModel: DetailUsernameViewModel by viewModelsFactory {
         DetailUsernameViewModel(
             repository
@@ -80,6 +84,10 @@ class DetailActivity : AppCompatActivity() {
                 handleError(it)
             }
 
+            fab.setOnClickListener {
+                detailUsernameViewModel.insertFavUser()
+            }
+
             detailUsernameViewModel.getDetailUsername()
             fragmentState = SectionPagerAdapter(this@DetailActivity)
             fragmentState.setUsername(getUsername!!)
@@ -98,6 +106,7 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private fun showMesaggeError(message: String) {
 
         val handler = Handler(Looper.getMainLooper())

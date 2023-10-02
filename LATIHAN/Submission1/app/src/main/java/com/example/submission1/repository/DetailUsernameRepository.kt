@@ -3,8 +3,10 @@ package com.example.submission1.repository
 import android.util.Log
 import com.example.submission1.model.response.GetDetailUsernameResponse
 import com.example.submission1.model.retrofit.ApiService
+import com.example.submission1.model.room.FavoriteUser
+import com.example.submission1.model.room.FavoriteUserDao
 
-class DetailUsernameRepository(private val apiService: ApiService) {
+class DetailUsernameRepository(private val apiService: ApiService, private val favoriteUserDao: FavoriteUserDao) {
 
     private lateinit var username: String
 
@@ -24,7 +26,11 @@ class DetailUsernameRepository(private val apiService: ApiService) {
             Log.e(TAG, "getDetailUsername: ${t.message} ")
             listener.showMessageError(ERROR)
         }
+    }
 
+    suspend fun insertFavoritUser(username: String, avatarUrl: String) {
+        val data = FavoriteUser(null,username , avatarUrl)
+        favoriteUserDao.insertFavUser(data)
     }
 
     fun getFollower(listener: Listener) {

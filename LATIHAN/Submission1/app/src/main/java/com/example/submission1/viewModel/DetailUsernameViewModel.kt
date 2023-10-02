@@ -45,6 +45,7 @@ class DetailUsernameViewModel(private val repository: DetailUsernameRepository) 
     val onError: LiveData<Boolean> = _onError
 
     private val _onErrorFollow = MutableLiveData<Boolean>().apply { value = false }
+    private val _onErrorMsgFollow = MutableLiveData<String>()
 
     private val _onErrorMsg = MutableLiveData<String>()
     val onErrorMsg: LiveData<String> = _onErrorMsg
@@ -56,6 +57,14 @@ class DetailUsernameViewModel(private val repository: DetailUsernameRepository) 
 
     fun setUsername(username: String?) {
         query = username!!
+    }
+
+    fun insertFavUser() {
+        val username = getDetailUsernameResponse!!.login
+        val avatarUrl = getDetailUsernameResponse!!.avatarUrl
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insertFavoritUser(username,avatarUrl)
+        }
     }
 
     fun getDetailUsername() {
@@ -93,7 +102,7 @@ class DetailUsernameViewModel(private val repository: DetailUsernameRepository) 
                 repository.getFollower(object : DetailUsernameRepository.Listener {
                     override fun showMessageError(message: String) {
                         _onErrorFollow.postValue(true)
-                        _onErrorMsg.postValue(message)
+                        _onErrorMsgFollow.postValue(message)
                     }
 
                     override fun result(source: Any?) {
@@ -117,10 +126,10 @@ class DetailUsernameViewModel(private val repository: DetailUsernameRepository) 
         } else {
             _isLoadingFollow.value = true
             viewModelScope.launch(Dispatchers.IO) {
-               repository.getFollowing(object : DetailUsernameRepository.Listener {
+                repository.getFollowing(object : DetailUsernameRepository.Listener {
                     override fun showMessageError(message: String) {
-                        _onErrorMsg.postValue(message)
-                        _onError.postValue(true)
+                        _onErrorMsgFollow.postValue(message)
+                        _onErrorFollow.postValue(true)
                     }
 
                     override fun result(source: Any?) {
