@@ -89,7 +89,6 @@ class DetailActivity : AppCompatActivity() {
                 detailUsernameViewModel.getDataFavUser().observe(this@DetailActivity) {
                     btnFavUser(it)
                 }
-
             }
 
             detailUsernameViewModel.getDetailUsername()
@@ -146,5 +145,12 @@ class DetailActivity : AppCompatActivity() {
             binding.fab.setImageResource(R.drawable.baseline_favorite_24)
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        detailUsernameViewModel.getDataFavUser().observe(this@DetailActivity) {
+            btnFavUser(it)
+        }
     }
 }

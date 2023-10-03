@@ -9,7 +9,7 @@ import com.example.submission1.model.room.FavoriteUserDao
 
 class DetailUsernameRepository(private val apiService: ApiService, private val favoriteUserDao: FavoriteUserDao) {
 
-    private lateinit var username: String
+    private var username: String = ""
 
     fun getDetailUsername(listener: Listener) {
         val response = apiService.getusername(username).execute()
