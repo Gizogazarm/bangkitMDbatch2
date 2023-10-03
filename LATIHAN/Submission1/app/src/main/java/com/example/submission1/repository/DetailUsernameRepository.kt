@@ -30,7 +30,7 @@ class DetailUsernameRepository(private val apiService: ApiService, private val f
     }
 
     suspend fun insertFavoritUser(username: String, avatarUrl: String) {
-        val data = FavoriteUser(null,username , avatarUrl)
+        val data = FavoriteUser(username , avatarUrl)
         favoriteUserDao.insertFavUser(data)
     }
 
