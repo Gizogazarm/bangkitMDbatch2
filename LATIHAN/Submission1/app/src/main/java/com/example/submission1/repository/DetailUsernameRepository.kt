@@ -9,9 +9,8 @@ import com.example.submission1.model.room.FavoriteUserDao
 
 class DetailUsernameRepository(private val apiService: ApiService, private val favoriteUserDao: FavoriteUserDao) {
 
-    private var username: String = ""
 
-    fun getDetailUsername(listener: Listener) {
+    fun getDetailUsername(username: String,listener: Listener) {
         val response = apiService.getusername(username).execute()
         try {
             if (response.isSuccessful) {
@@ -34,7 +33,16 @@ class DetailUsernameRepository(private val apiService: ApiService, private val f
         favoriteUserDao.insertFavUser(data)
     }
 
-    fun getFollower(listener: Listener) {
+    suspend fun deleteFavoritUser(username: String,avatarUrl: String) {
+        val data = FavoriteUser(username, avatarUrl)
+        favoriteUserDao.deleteFavoriteByUsername(data)
+    }
+
+    fun setFavoriteUser(username: String): Boolean {
+        return favoriteUserDao.getFavoriteByUsername(username).value != null
+    }
+
+    fun getFollower(listener: Listener,username: String) {
         val response = apiService.getFollowers(username).execute()
         try {
             if (response.isSuccessful) {
@@ -49,11 +57,15 @@ class DetailUsernameRepository(private val apiService: ApiService, private val f
         }
     }
 
-     fun getFavUser(): LiveData<FavoriteUser>{
+     fun getFavUser(username: String): LiveData<FavoriteUser> {
        return favoriteUserDao.getFavoriteByUsername(username)
     }
 
-    fun getFollowing(listener: Listener) {
+    fun getAllList():LiveData<List<FavoriteUser>> {
+        return favoriteUserDao.getAllList()
+    }
+
+    fun getFollowing(listener: Listener, username: String) {
         val response = apiService.getFollowing(username).execute()
         try {
             if (response.isSuccessful) {
@@ -67,14 +79,7 @@ class DetailUsernameRepository(private val apiService: ApiService, private val f
             Log.e(TAG, "getFollower: error ${response.message()} ")
             listener.showMessageError(ERROR)
         }
-
-
     }
-
-    fun setUsername(username: String) {
-        this.username = username
-    }
-
 
     interface Listener {
         fun showMessageError(message: String)

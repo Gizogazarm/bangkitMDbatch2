@@ -40,10 +40,9 @@ class FollowFragement : Fragment() {
             username = it.getString(ARG_USERNAME).toString()
         }
 
-        detailUsernameViewModel.setUsername(username)
 
         if (position == 1) {
-            detailUsernameViewModel.getListFollower()
+            detailUsernameViewModel.getListFollower(username)
             detailUsernameViewModel.usernameFollower.observe(viewLifecycleOwner){
                 showRvList(it)
             }
@@ -52,7 +51,7 @@ class FollowFragement : Fragment() {
                 showLoading(it)
             }
         } else {
-            detailUsernameViewModel.getListFollowing()
+            detailUsernameViewModel.getListFollowing(username)
             detailUsernameViewModel.usernameFollowing.observe(viewLifecycleOwner){
                 showRvList(it)
             }
@@ -79,12 +78,12 @@ class FollowFragement : Fragment() {
             detailUsernameViewModel.clearCache()
 
             if (position == 1) {
-                detailUsernameViewModel.getListFollower()
+                detailUsernameViewModel.getListFollower(username)
                 detailUsernameViewModel.isLoadingFollow.observe(viewLifecycleOwner){
                     showLoading(it)
                 }
             } else {
-                detailUsernameViewModel.getListFollowing()
+                detailUsernameViewModel.getListFollowing(username)
                 detailUsernameViewModel.isLoadingFollow.observe(viewLifecycleOwner){
                     showLoading(it)
                 }

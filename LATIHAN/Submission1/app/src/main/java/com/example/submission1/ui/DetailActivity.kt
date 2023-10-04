@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -37,8 +38,8 @@ class DetailActivity : AppCompatActivity() {
     private var getUsername: String? = ""
     private lateinit var fragmentState: SectionPagerAdapter
     private val apiService by lazy { ApiConfig.instance }
-    private val database by lazy { FavoriteDatabase.getInstance(application).favoriteDao()}
-    private val repository by lazy { DetailUsernameRepository(apiService,database) }
+    private val database by lazy { FavoriteDatabase.getInstance(application).favoriteDao() }
+    private val repository by lazy { DetailUsernameRepository(apiService, database) }
     private val detailUsernameViewModel: DetailUsernameViewModel by viewModelsFactory {
         DetailUsernameViewModel(
             repository
@@ -52,7 +53,7 @@ class DetailActivity : AppCompatActivity() {
 
         with(binding) {
             getUsername = intent.getStringExtra(MainActivity.USERNAME)
-            detailUsernameViewModel.setUsername(getUsername)
+            Log.d("nilai GetUsername",getUsername!!)
 
             detailUsernameViewModel.username.observe(this@DetailActivity) {
                 tvDetailUsername.text = it
@@ -84,14 +85,27 @@ class DetailActivity : AppCompatActivity() {
                 handleError(it)
             }
 
+
+            detailUsernameViewModel.setStatusFavorite(getUsername!!)
+            Log.d("nilai setGetData", "${detailUsernameViewModel.getDataFavUser("gaga").value}")
+            Log.d("nilai allFavUser", "${detailUsernameViewModel.getAllDataFavoriteUser.value} ")
+
+
             fab.setOnClickListener {
-                detailUsernameViewModel.insertFavUser()
-                detailUsernameViewModel.getDataFavUser().observe(this@DetailActivity) {
+                detailUsernameViewModel.setFavorit.observe(this@DetailActivity) {
+                    if (it) {
+                        detailUsernameViewModel.deleteFavUser()
+                    } else {
+                        detailUsernameViewModel.insertFavUser()
+                    }
+                }
+
+                detailUsernameViewModel.getDataFavUser(getUsername!!).observe(this@DetailActivity) {
                     btnFavUser(it)
                 }
             }
 
-            detailUsernameViewModel.getDetailUsername()
+            detailUsernameViewModel.getDetailUsername(getUsername!!)
             fragmentState = SectionPagerAdapter(this@DetailActivity)
             fragmentState.setUsername(getUsername!!)
             viewPager.adapter = fragmentState
@@ -113,7 +127,7 @@ class DetailActivity : AppCompatActivity() {
     private fun showMesaggeError(message: String) {
 
         val handler = Handler(Looper.getMainLooper())
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         handler.postDelayed({
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
@@ -138,8 +152,8 @@ class DetailActivity : AppCompatActivity() {
         binding.progressDetail.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
-    private fun btnFavUser (favoriteUser: FavoriteUser?) {
-        if (favoriteUser == null ) {
+    private fun btnFavUser(favoriteUser: FavoriteUser?) {
+        if (favoriteUser == null) {
             binding.fab.setImageResource(R.drawable.baseline_favorite_border_24)
         } else {
             binding.fab.setImageResource(R.drawable.baseline_favorite_24)
@@ -147,9 +161,10 @@ class DetailActivity : AppCompatActivity() {
 
     }
 
+
     override fun onResume() {
         super.onResume()
-        detailUsernameViewModel.getDataFavUser().observe(this@DetailActivity) {
+        detailUsernameViewModel.getDataFavUser(getUsername!!).observe(this@DetailActivity) {
             btnFavUser(it)
         }
     }

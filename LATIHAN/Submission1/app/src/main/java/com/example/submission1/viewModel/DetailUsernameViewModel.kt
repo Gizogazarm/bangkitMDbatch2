@@ -1,6 +1,7 @@
 package com.example.submission1.viewModel
 
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -45,10 +46,14 @@ class DetailUsernameViewModel(private val repository: DetailUsernameRepository) 
     private val _onError = MutableLiveData<Boolean>().apply { value = false }
     val onError: LiveData<Boolean> = _onError
 
+    private val _setFavorit = MutableLiveData<Boolean>()
+    val setFavorit: LiveData<Boolean> = _setFavorit
+
     private val _onErrorFollow = MutableLiveData<Boolean>().apply { value = false }
     private val _onErrorMsgFollow = MutableLiveData<String>()
 
-    fun getDataFavUser(): LiveData<FavoriteUser> = repository.getFavUser()
+    val getAllDataFavoriteUser: LiveData<List<FavoriteUser>> = repository.getAllList()
+
 
     private val _onErrorMsg = MutableLiveData<String>()
     val onErrorMsg: LiveData<String> = _onErrorMsg
@@ -56,12 +61,21 @@ class DetailUsernameViewModel(private val repository: DetailUsernameRepository) 
     private var getDetailUsernameResponse: GetDetailUsernameResponse? = null
     private var cachedFollowers: List<ItemsItem>? = null
     private var cachedFollowing: List<ItemsItem>? = null
-    private lateinit var query: String
+    fun getDataFavUser(username: String): LiveData<FavoriteUser> = repository.getFavUser(username)
 
 
+    fun setStatusFavorite(username: String) {
+        _setFavorit.value = repository.setFavoriteUser(username)
+        Log.d("nilai setFavorit", "${_setFavorit.value}")
+        Log.d("nilai setUsername", "username : $username ")
+    }
 
-    fun setUsername(username: String?) {
-        query = username!!
+    fun deleteFavUser() {
+        val username = getDetailUsernameResponse!!.login
+        val avatarUrl = getDetailUsernameResponse!!.avatarUrl
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteFavoritUser(username,avatarUrl)
+        }
     }
 
 
@@ -73,11 +87,10 @@ class DetailUsernameViewModel(private val repository: DetailUsernameRepository) 
         }
     }
 
-    fun getDetailUsername() {
+    fun getDetailUsername(username: String) {
         _isLoadingDetail.value = true
-        repository.setUsername(query)
         viewModelScope.launch(Dispatchers.IO) {
-            repository.getDetailUsername(object : DetailUsernameRepository.Listener {
+            repository.getDetailUsername(username,object : DetailUsernameRepository.Listener {
                 override fun showMessageError(message: String) {
                     _onError.postValue(true)
                     _onErrorMsg.postValue(message)
@@ -99,7 +112,7 @@ class DetailUsernameViewModel(private val repository: DetailUsernameRepository) 
 
     }
 
-    fun getListFollower() {
+    fun getListFollower(username: String) {
         if (cachedFollowers != null) {
             _usernameFollower.postValue(cachedFollowers!!)
         } else {
@@ -117,7 +130,7 @@ class DetailUsernameViewModel(private val repository: DetailUsernameRepository) 
                         _isLoadingFollow.postValue(false)
                     }
 
-                })
+                },username)
 
 
             }
@@ -126,7 +139,7 @@ class DetailUsernameViewModel(private val repository: DetailUsernameRepository) 
 
     }
 
-    fun getListFollowing() {
+    fun getListFollowing(username: String) {
         if (cachedFollowing != null) {
             _usernameFollowing.postValue(cachedFollowing!!)
         } else {
@@ -144,7 +157,7 @@ class DetailUsernameViewModel(private val repository: DetailUsernameRepository) 
                         _isLoadingFollow.postValue(false)
                     }
 
-                })
+                },username)
 
 
             }

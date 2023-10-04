@@ -2,6 +2,7 @@ package com.example.submission1.model.room
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 
@@ -13,6 +14,12 @@ interface FavoriteUserDao {
 
     @Query("SELECT * FROM favorite_user WHERE username = :username")
     fun getFavoriteByUsername(username: String): LiveData<FavoriteUser>
+
+    @Delete
+    suspend fun deleteFavoriteByUsername(favoriteUser: FavoriteUser)
+
+    @Query("SELECT * FROM favorite_user")
+    fun getAllList(): LiveData<List<FavoriteUser>>
 
 
 }
