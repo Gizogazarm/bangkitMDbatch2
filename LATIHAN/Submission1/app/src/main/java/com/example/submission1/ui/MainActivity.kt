@@ -6,11 +6,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import com.example.submission1.R
 import com.example.submission1.adapter.AdapterListUsername
 import com.example.submission1.databinding.ActivityMainBinding
 import com.example.submission1.model.response.ItemsItem
 import com.example.submission1.model.retrofit.ApiConfig
+import com.example.submission1.preference.SettingPreference
+import com.example.submission1.preference.dataStore
 import com.example.submission1.repository.MainViewRepository
 import com.example.submission1.viewModel.MainViewModel
 import com.google.android.material.search.SearchBar
@@ -23,7 +26,8 @@ class MainActivity : AppCompatActivity() {
     private var nama: String = ""
     private val apiService by lazy { ApiConfig.instance }
     private val repository by lazy { MainViewRepository(apiService) }
-    private val mainViewModel: MainViewModel by viewModelsFactory { MainViewModel(repository) }
+    private val setPref by lazy { SettingPreference.getInstance(application.dataStore) }
+    private val mainViewModel: MainViewModel by viewModelsFactory { MainViewModel(repository,setPref) }
 
 
     companion object {
@@ -39,6 +43,25 @@ class MainActivity : AppCompatActivity() {
         with(binding) {
             showSearchView(searchView, searchBar)
             searchBar.inflateMenu(R.menu.menu_setting)
+            searchBar.setOnMenuItemClickListener {menuItem ->
+                when(menuItem.itemId) {
+                    R.id.btn_setting -> {
+                        val intent = Intent(this@MainActivity, SettingActivity::class.java)
+                        startActivity(intent)
+                        true
+                    } else -> false
+                }
+            }
+
+            mainViewModel.getThemeSettings().observe(this@MainActivity) {
+                if (it){
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                }
+            }
+
+
 
 
             mainViewModel.listUsername.observe(this@MainActivity) {
