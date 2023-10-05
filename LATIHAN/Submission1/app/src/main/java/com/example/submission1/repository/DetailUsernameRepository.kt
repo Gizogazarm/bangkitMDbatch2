@@ -38,9 +38,6 @@ class DetailUsernameRepository(private val apiService: ApiService, private val f
         favoriteUserDao.deleteFavoriteByUsername(data)
     }
 
-    fun setFavoriteUser(username: String): Boolean {
-        return favoriteUserDao.getFavoriteByUsername(username).value != null
-    }
 
     fun getFollower(listener: Listener,username: String) {
         val response = apiService.getFollowers(username).execute()

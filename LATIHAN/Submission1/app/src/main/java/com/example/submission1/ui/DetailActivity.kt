@@ -53,10 +53,13 @@ class DetailActivity : AppCompatActivity() {
 
         with(binding) {
             getUsername = intent.getStringExtra(MainActivity.USERNAME)
-            Log.d("nilai GetUsername",getUsername!!)
 
             detailUsernameViewModel.username.observe(this@DetailActivity) {
                 tvDetailUsername.text = it
+                detailUsernameViewModel.getDataFavUser(it).observe(this@DetailActivity) { favoriteUser ->
+                    btnFavUser(favoriteUser)
+                }
+                Log.d("nilai GetUsername",it)
             }
 
             detailUsernameViewModel.avatar.observe(this@DetailActivity) {
@@ -86,22 +89,18 @@ class DetailActivity : AppCompatActivity() {
             }
 
 
-            detailUsernameViewModel.setStatusFavorite(getUsername!!)
-            Log.d("nilai setGetData", "${detailUsernameViewModel.getDataFavUser("gaga").value}")
-            Log.d("nilai allFavUser", "${detailUsernameViewModel.getAllDataFavoriteUser.value} ")
-
+            detailUsernameViewModel.getAllDataFavoriteUser().observe(this@DetailActivity){
+                Log.d("nilai allFavUser", "$it ")
+            }
 
             fab.setOnClickListener {
                 detailUsernameViewModel.setFavorit.observe(this@DetailActivity) {
+                    Log.d("nilai setGetData", "$it")
                     if (it) {
                         detailUsernameViewModel.deleteFavUser()
                     } else {
                         detailUsernameViewModel.insertFavUser()
                     }
-                }
-
-                detailUsernameViewModel.getDataFavUser(getUsername!!).observe(this@DetailActivity) {
-                    btnFavUser(it)
                 }
             }
 
@@ -155,17 +154,11 @@ class DetailActivity : AppCompatActivity() {
     private fun btnFavUser(favoriteUser: FavoriteUser?) {
         if (favoriteUser == null) {
             binding.fab.setImageResource(R.drawable.baseline_favorite_border_24)
+            detailUsernameViewModel.setStatusFavorite(false)
         } else {
             binding.fab.setImageResource(R.drawable.baseline_favorite_24)
-        }
-
-    }
-
-
-    override fun onResume() {
-        super.onResume()
-        detailUsernameViewModel.getDataFavUser(getUsername!!).observe(this@DetailActivity) {
-            btnFavUser(it)
+            detailUsernameViewModel.setStatusFavorite(true)
         }
     }
+
 }

@@ -52,20 +52,18 @@ class DetailUsernameViewModel(private val repository: DetailUsernameRepository) 
     private val _onErrorFollow = MutableLiveData<Boolean>().apply { value = false }
     private val _onErrorMsgFollow = MutableLiveData<String>()
 
-    val getAllDataFavoriteUser: LiveData<List<FavoriteUser>> = repository.getAllList()
-
-
     private val _onErrorMsg = MutableLiveData<String>()
     val onErrorMsg: LiveData<String> = _onErrorMsg
 
     private var getDetailUsernameResponse: GetDetailUsernameResponse? = null
     private var cachedFollowers: List<ItemsItem>? = null
     private var cachedFollowing: List<ItemsItem>? = null
+
     fun getDataFavUser(username: String): LiveData<FavoriteUser> = repository.getFavUser(username)
+    fun getAllDataFavoriteUser(): LiveData<List<FavoriteUser>> = repository.getAllList()
 
-
-    fun setStatusFavorite(username: String) {
-        _setFavorit.value = repository.setFavoriteUser(username)
+    fun setStatusFavorite(boolean: Boolean) {
+        _setFavorit.value = boolean
         Log.d("nilai setFavorit", "${_setFavorit.value}")
         Log.d("nilai setUsername", "username : $username ")
     }
@@ -106,10 +104,7 @@ class DetailUsernameViewModel(private val repository: DetailUsernameRepository) 
                     _isLoadingDetail.postValue(false)
                 }
             })
-
-
         }
-
     }
 
     fun getListFollower(username: String) {
@@ -129,14 +124,9 @@ class DetailUsernameViewModel(private val repository: DetailUsernameRepository) 
                         _usernameFollower.postValue(cachedFollowers!!)
                         _isLoadingFollow.postValue(false)
                     }
-
                 },username)
-
-
             }
-
         }
-
     }
 
     fun getListFollowing(username: String) {
@@ -156,10 +146,7 @@ class DetailUsernameViewModel(private val repository: DetailUsernameRepository) 
                         _usernameFollowing.postValue(cachedFollowing!!)
                         _isLoadingFollow.postValue(false)
                     }
-
                 },username)
-
-
             }
         }
     }
