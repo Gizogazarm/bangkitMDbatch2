@@ -8,5 +8,11 @@
             app:showAsAction="always"
             android:title="@string/setting_menu"
             />
+        <item
+            android:id="@+id/btn_favorite"
+            android:icon="@drawable/baseline_favorite_24"
+            app:showAsAction="ifRoom"
+            android:title="Favorite Menu"
+            />
     </group>
 </menu>

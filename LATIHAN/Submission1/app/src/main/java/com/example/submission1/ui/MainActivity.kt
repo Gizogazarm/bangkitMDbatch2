@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
         with(binding) {
             showSearchView(searchView, searchBar)
-            searchView.inflateMenu(R.menu.menu_setting)
+            searchBar.inflateMenu(R.menu.menu_setting)
 
 
             mainViewModel.listUsername.observe(this@MainActivity) {
