@@ -1,6 +1,7 @@
 package com.example.submission1.ui
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -20,7 +21,6 @@ class FavoritActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFavoritBinding
     private lateinit var adapter: AdapterListUsername
     private lateinit var items: ArrayList<ItemsItem>
-    private lateinit var username: String
     private val apiservice by lazy { ApiConfig.instance }
     private val dao by lazy { FavoriteDatabase.getInstance(application).favoriteDao() }
     private val repository by lazy { DetailUsernameRepository(apiservice,dao) }
@@ -33,13 +33,10 @@ class FavoritActivity : AppCompatActivity() {
         binding = ActivityFavoritBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        adapter = AdapterListUsername()
-
             viewModel.getFavoriteData().observe(this){ users ->
                 Log.d("list FavoritUser", "$users")
                 items = rvListfavorite(users)
-                adapter.submitList(items)
-                binding.rvFavorite.adapter = adapter
+                adapterRvList(items)
             }
 
     }
@@ -53,8 +50,23 @@ class FavoritActivity : AppCompatActivity() {
         return items
     }
 
-    private fun adapter(listItem: ArrayList<ItemsItem>) {
+    private fun adapterRvList(listItem: ArrayList<ItemsItem>) {
         adapter = AdapterListUsername()
+        adapter.submitList(listItem)
+        binding.rvFavorite.adapter = adapter
+
+        adapter.setOnItemClickCallback(object : AdapterListUsername.OnitemClickCallback {
+            override fun onClickItem(username: ItemsItem) {
+                selectedItemData(username)
+            }
+
+        })
+    }
+
+    private fun selectedItemData(username: ItemsItem) {
+        val intent = Intent(this, DetailActivity::class.java)
+        intent.putExtra(MainActivity.USERNAME, username.login)
+        startActivity(intent)
     }
 }
 
