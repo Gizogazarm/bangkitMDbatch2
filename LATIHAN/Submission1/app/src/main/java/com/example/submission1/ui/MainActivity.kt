@@ -49,7 +49,12 @@ class MainActivity : AppCompatActivity() {
                         val intent = Intent(this@MainActivity, SettingActivity::class.java)
                         startActivity(intent)
                         true
-                    } else -> false
+                    }
+                    R.id.btn_favorite -> {
+                        val intent = Intent(this@MainActivity, FavoritActivity::class.java)
+                        startActivity(intent)
+                        true
+                    }else -> false
                 }
             }
 
@@ -60,8 +65,6 @@ class MainActivity : AppCompatActivity() {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                 }
             }
-
-
 
 
             mainViewModel.listUsername.observe(this@MainActivity) {

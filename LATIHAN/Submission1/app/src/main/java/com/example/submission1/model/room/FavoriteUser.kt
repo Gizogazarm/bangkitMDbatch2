@@ -8,5 +8,5 @@ import androidx.room.PrimaryKey
 data class FavoriteUser(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo("username") var username: String,
-    @ColumnInfo("avatarUrl") var avatar: String?
+    @ColumnInfo("avatarUrl") var avatar: String
 )
