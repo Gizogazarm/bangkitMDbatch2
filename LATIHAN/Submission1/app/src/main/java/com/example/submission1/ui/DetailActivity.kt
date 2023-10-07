@@ -37,6 +37,7 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
     private var getUsername: String? = ""
     private lateinit var fragmentState: SectionPagerAdapter
+    private var isfavorite: Boolean = false
     private val apiService by lazy { ApiConfig.instance }
     private val database by lazy { FavoriteDatabase.getInstance(application).favoriteDao() }
     private val repository by lazy { DetailUsernameRepository(apiService, database) }
@@ -56,9 +57,6 @@ class DetailActivity : AppCompatActivity() {
 
             detailUsernameViewModel.username.observe(this@DetailActivity) {
                 tvDetailUsername.text = it
-                detailUsernameViewModel.getDataFavUser(it).observe(this@DetailActivity) { favoriteUser ->
-                    btnFavUser(favoriteUser)
-                }
                 Log.d("nilai GetUsername",it)
             }
 
@@ -88,20 +86,20 @@ class DetailActivity : AppCompatActivity() {
                 handleError(it)
             }
 
-
-            detailUsernameViewModel.getAllDataFavoriteUser().observe(this@DetailActivity){
-                Log.d("nilai allFavUser", "$it ")
+            detailUsernameViewModel.getDataFavUser(getUsername!!).observe(this@DetailActivity) {
+                btnFavUser(it)
+                Log.d("nilai getData", "$it")
+                isfavorite = detailUsernameViewModel.setFavorieUser(it)
+                Log.d("nilai boolean isFavorite", "$isfavorite")
             }
 
+
             fab.setOnClickListener {
-                detailUsernameViewModel.setFavorit.observe(this@DetailActivity) {
-                    Log.d("nilai setGetData", "$it")
-                    if (it) {
+                    if (isfavorite) {
                         detailUsernameViewModel.deleteFavUser()
                     } else {
                         detailUsernameViewModel.insertFavUser()
                     }
-                }
             }
 
             detailUsernameViewModel.getDetailUsername(getUsername!!)
@@ -154,10 +152,8 @@ class DetailActivity : AppCompatActivity() {
     private fun btnFavUser(favoriteUser: FavoriteUser?) {
         if (favoriteUser == null) {
             binding.fab.setImageResource(R.drawable.baseline_favorite_border_24)
-            detailUsernameViewModel.setStatusFavorite(false)
         } else {
             binding.fab.setImageResource(R.drawable.baseline_favorite_24)
-            detailUsernameViewModel.setStatusFavorite(true)
         }
     }
 

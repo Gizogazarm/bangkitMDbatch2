@@ -7,15 +7,18 @@ import com.example.submission1.model.retrofit.ApiService
 import com.example.submission1.model.room.FavoriteUser
 import com.example.submission1.model.room.FavoriteUserDao
 
-class DetailUsernameRepository(private val apiService: ApiService, private val favoriteUserDao: FavoriteUserDao) {
+class DetailUsernameRepository(
+    private val apiService: ApiService,
+    private val favoriteUserDao: FavoriteUserDao
+) {
 
 
-    fun getDetailUsername(username: String,listener: Listener) {
+    fun getDetailUsername(username: String, listener: Listener) {
         val response = apiService.getusername(username).execute()
         try {
             if (response.isSuccessful) {
-               val result = response.body()
-                if ( result is GetDetailUsernameResponse) {
+                val result = response.body()
+                if (result is GetDetailUsernameResponse) {
                     listener.result(result)
                 }
             } else {
@@ -29,36 +32,37 @@ class DetailUsernameRepository(private val apiService: ApiService, private val f
     }
 
     suspend fun insertFavoritUser(username: String, avatarUrl: String) {
-        val data = FavoriteUser(username , avatarUrl)
+        val data = FavoriteUser(username, avatarUrl)
         favoriteUserDao.insertFavUser(data)
     }
 
-    suspend fun deleteFavoritUser(username: String,avatarUrl: String) {
+    suspend fun deleteFavoritUser(username: String, avatarUrl: String) {
         val data = FavoriteUser(username, avatarUrl)
         favoriteUserDao.deleteFavoriteByUsername(data)
     }
 
 
-    fun getFollower(listener: Listener,username: String) {
+    fun getFollower(listener: Listener, username: String) {
         val response = apiService.getFollowers(username).execute()
         try {
             if (response.isSuccessful) {
                 listener.result(response.body())
             } else {
-                Log.e(TAG, "getFollower: error ${response.message()}" )
+                Log.e(TAG, "getFollower: error ${response.message()}")
                 listener.showMessageError(ERROR)
             }
-        }catch (t: Throwable) {
-            Log.e(TAG, "getFollower: error ${response.message()} " )
+        } catch (t: Throwable) {
+            Log.e(TAG, "getFollower: error ${response.message()} ")
             listener.showMessageError(ERROR)
         }
     }
 
-     fun getFavUser(username: String): LiveData<FavoriteUser> {
-       return favoriteUserDao.getFavoriteByUsername(username)
+    fun getFavUser(username: String): LiveData<FavoriteUser> {
+        return favoriteUserDao.getFavoriteByUsername(username)
     }
 
-    fun getAllList():LiveData<List<FavoriteUser>> {
+
+    fun getAllList(): LiveData<List<FavoriteUser>> {
         return favoriteUserDao.getAllList()
     }
 
@@ -68,11 +72,11 @@ class DetailUsernameRepository(private val apiService: ApiService, private val f
             if (response.isSuccessful) {
                 listener.result(response.body())
             } else {
-                Log.e(TAG, "getFollower: error ${response.message()}" )
+                Log.e(TAG, "getFollower: error ${response.message()}")
                 listener.showMessageError(ERROR)
             }
 
-        }catch (t: Throwable) {
+        } catch (t: Throwable) {
             Log.e(TAG, "getFollower: error ${response.message()} ")
             listener.showMessageError(ERROR)
         }
@@ -80,7 +84,7 @@ class DetailUsernameRepository(private val apiService: ApiService, private val f
 
     interface Listener {
         fun showMessageError(message: String)
-        fun result(source:Any?)
+        fun result(source: Any?)
     }
 
     companion object {
