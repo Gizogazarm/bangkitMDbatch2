@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import com.example.submission1.adapter.AdapterListUsername
 import com.example.submission1.databinding.ActivityFavoritBinding
 import com.example.submission1.model.response.ItemsItem
@@ -23,7 +24,7 @@ class FavoritActivity : AppCompatActivity() {
     private lateinit var items: ArrayList<ItemsItem>
     private val apiservice by lazy { ApiConfig.instance }
     private val dao by lazy { FavoriteDatabase.getInstance(application).favoriteDao() }
-    private val repository by lazy { DetailUsernameRepository(apiservice,dao) }
+    private val repository by lazy { DetailUsernameRepository(apiservice, dao) }
     private val viewModel: FavoriteViewModel by viewModelsFactory { FavoriteViewModel(repository) }
 
 
@@ -33,11 +34,16 @@ class FavoritActivity : AppCompatActivity() {
         binding = ActivityFavoritBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-            viewModel.getFavoriteData().observe(this){ users ->
-                Log.d("list FavoritUser", "$users")
-                items = rvListfavorite(users)
-                adapterRvList(items)
-            }
+        viewModel.getFavoriteData().observe(this) { users ->
+            Log.d("list FavoritUser", "$users")
+            items = rvListfavorite(users)
+            adapterRvList(items)
+        }
+
+        viewModel.onLoading.observe(this) {
+            showLoading(it)
+        }
+
 
     }
 
@@ -54,6 +60,7 @@ class FavoritActivity : AppCompatActivity() {
         adapter = AdapterListUsername()
         adapter.submitList(listItem)
         binding.rvFavorite.adapter = adapter
+        viewModel.setFavorit(false)
 
         adapter.setOnItemClickCallback(object : AdapterListUsername.OnitemClickCallback {
             override fun onClickItem(username: ItemsItem) {
@@ -67,6 +74,10 @@ class FavoritActivity : AppCompatActivity() {
         val intent = Intent(this, DetailActivity::class.java)
         intent.putExtra(MainActivity.USERNAME, username.login)
         startActivity(intent)
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressFavorite.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 }
 

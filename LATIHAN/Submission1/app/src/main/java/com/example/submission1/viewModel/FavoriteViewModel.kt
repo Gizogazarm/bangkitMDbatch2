@@ -11,6 +11,10 @@ class FavoriteViewModel(private val repository: DetailUsernameRepository): ViewM
     private var _onLoading = MutableLiveData<Boolean>().apply { value = false }
     val onLoading: LiveData<Boolean> = _onLoading
 
+    fun setFavorit(boolean: Boolean) {
+        _onLoading.value = boolean
+    }
+
 
     fun getFavoriteData(): LiveData<List<FavoriteUser>> {
         _onLoading.value = true
