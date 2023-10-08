@@ -41,25 +41,22 @@ class FollowFragement : Fragment() {
             username = it.getString(ARG_USERNAME).toString()
         }
 
+        detailUsernameViewModel.usernameFollower.observe(viewLifecycleOwner){
+            showRvList(it)
+        }
+
+        detailUsernameViewModel.usernameFollowing.observe(viewLifecycleOwner){
+            showRvList(it)
+        }
+
+        detailUsernameViewModel.isLoadingFollow.observe(viewLifecycleOwner){
+            showLoading(it)
+        }
 
         if (position == 1) {
             detailUsernameViewModel.getListFollower(username)
-            detailUsernameViewModel.usernameFollower.observe(viewLifecycleOwner){
-                showRvList(it)
-            }
-
-            detailUsernameViewModel.isLoadingFollow.observe(viewLifecycleOwner){
-                showLoading(it)
-            }
         } else {
             detailUsernameViewModel.getListFollowing(username)
-            detailUsernameViewModel.usernameFollowing.observe(viewLifecycleOwner){
-                showRvList(it)
-            }
-
-            detailUsernameViewModel.isLoadingFollow.observe(viewLifecycleOwner){
-                showLoading(it)
-            }
         }
     }
 
@@ -84,20 +81,12 @@ class FollowFragement : Fragment() {
 
     override fun onResume() {
         super.onResume()
-
             detailUsernameViewModel.clearCache()
-
-            if (position == 1) {
-                detailUsernameViewModel.getListFollower(username)
-                detailUsernameViewModel.isLoadingFollow.observe(viewLifecycleOwner){
-                    showLoading(it)
-                }
-            } else {
-                detailUsernameViewModel.getListFollowing(username)
-                detailUsernameViewModel.isLoadingFollow.observe(viewLifecycleOwner){
-                    showLoading(it)
-                }
-            }
+        if (position == 1) {
+            detailUsernameViewModel.getListFollower(username)
+        } else {
+            detailUsernameViewModel.getListFollowing(username)
+        }
     }
 
     override fun onDestroy() {
