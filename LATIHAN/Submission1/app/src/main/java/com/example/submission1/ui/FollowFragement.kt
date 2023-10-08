@@ -1,5 +1,6 @@
 package com.example.submission1.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -66,6 +67,15 @@ class FollowFragement : Fragment() {
         val adapter = AdapterListUsername()
         adapter.submitList(listUser)
         binding.rvListFollow.adapter = adapter
+
+        adapter.setOnItemClickCallback(object : AdapterListUsername.OnitemClickCallback {
+            override fun onClickItem(username: ItemsItem) {
+                val intent = Intent(requireContext(), DetailActivity::class.java)
+                intent.putExtra(MainActivity.USERNAME,username.login)
+                startActivity(intent)
+            }
+
+        })
     }
 
     private fun showLoading(boolean: Boolean) {
